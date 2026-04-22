@@ -53,6 +53,21 @@ export default function BookingForm() {
       });
 
       if (!res.ok) throw new Error("Submission failed");
+
+      // Meta Pixel — Lead event
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "Lead");
+      }
+
+      // Google Ads — conversion
+      const gAdsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
+      const gAdsLabel = process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL;
+      if (typeof window !== "undefined" && (window as any).gtag && gAdsId && gAdsLabel) {
+        (window as any).gtag("event", "conversion", {
+          send_to: `${gAdsId}/${gAdsLabel}`,
+        });
+      }
+
       setSubmitted(true);
     } catch {
       setError("Something went wrong. Please try again.");
