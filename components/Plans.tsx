@@ -17,6 +17,7 @@ const plans = [
       "Outfit planning for events",
       "Your clothes stay with you",
     ],
+    includes: null,
     recommended: false,
   },
   {
@@ -24,19 +25,19 @@ const plans = [
     price: "₹7,999",
     tagline: "Your wardrobe moves to us. Your mornings free up.",
     features: [
-      "Everything in Digital",
       "We store all your clothes at your nearest Ubique centre",
       "Daily morning delivery before 8am",
-      "Evening pickup and same-day laundry",
-      "In-house dry cleaning and steaming",
+      "Morning collection of previous day's outfit",
+      "Same-day laundry, dry cleaning, and steaming",
       "Outfit planner synced to your calendar",
     ],
+    includes: "Digital",
     recommended: true,
   },
   {
     name: "Signature",
     price: "₹9,999",
-    tagline: "Everything in Essential, plus a person who knows your wardrobe better than you do.",
+    tagline: "A person who knows your wardrobe better than you do.",
     features: [
       "Dedicated senior stylist",
       "Monthly wardrobe review",
@@ -45,6 +46,7 @@ const plans = [
       "Tailoring and alteration coordination",
       "Seasonal edit recommendations",
     ],
+    includes: "Essential",
     recommended: false,
   },
 ];
@@ -82,21 +84,24 @@ export default function Plans() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.1 }}
           >
-            {plan.recommended && (
-              <span className="text-[10px] tracking-[0.2em] uppercase text-accent font-medium">
+            {/* Top tag */}
+            {plan.recommended ? (
+              <span className="text-[10px] tracking-[0.2em] uppercase text-accent font-semibold">
                 Recommended for daily use
               </span>
+            ) : (
+              <span className="h-4" />
             )}
-            {!plan.recommended && <span className="h-4" />}
 
+            {/* Plan name — large and prominent */}
             <div>
-              <p className={`text-xs tracking-[0.15em] uppercase mb-1 ${plan.recommended ? "text-bg/50" : "text-muted"}`}>
+              <p className={`text-2xl md:text-3xl font-semibold tracking-[-0.02em] mb-3 ${plan.recommended ? "text-bg" : "text-ink"}`}>
                 {plan.name}
               </p>
               <p className="text-4xl md:text-5xl font-semibold tracking-[-0.03em]">
                 {plan.price}
               </p>
-              <p className={`text-xs ${plan.recommended ? "text-bg/50" : "text-muted"} mt-1`}>
+              <p className={`text-xs mt-1 ${plan.recommended ? "text-bg/50" : "text-muted"}`}>
                 / month
               </p>
             </div>
@@ -105,10 +110,23 @@ export default function Plans() {
               {plan.tagline}
             </p>
 
+            {/* Includes line */}
+            {plan.includes && (
+              <p className={`text-xs tracking-[0.12em] uppercase font-medium border-t pt-4 ${
+                plan.recommended ? "border-bg/20 text-bg/60" : "border-border text-muted"
+              }`}>
+                Everything in{" "}
+                <span className={plan.recommended ? "text-bg" : "text-ink"}>
+                  {plan.includes}
+                </span>
+                , plus:
+              </p>
+            )}
+
             <ul className="flex flex-col gap-3">
               {plan.features.map((f) => (
                 <li key={f} className="flex items-start gap-3 text-sm leading-snug">
-                  <span className={`mt-0.5 w-3 h-px flex-shrink-0 ${plan.recommended ? "bg-bg/40" : "bg-border"} mt-2`} />
+                  <span className={`w-3 h-px flex-shrink-0 mt-2 ${plan.recommended ? "bg-bg/40" : "bg-border"}`} />
                   <span className={plan.recommended ? "text-bg/90" : ""}>{f}</span>
                 </li>
               ))}
