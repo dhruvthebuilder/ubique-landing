@@ -24,8 +24,8 @@ function doGet(e) {
     const sheet = SpreadsheetApp.openById("PASTE_YOUR_SHEET_ID_HERE").getActiveSheet();
 
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow(["Timestamp", "Name", "Phone", "Email", "City", "Window", "Plan"]);
-      sheet.getRange(1, 1, 1, 7).setFontWeight("bold");
+      sheet.appendRow(["Timestamp", "Name", "Phone", "Email", "City", "Plan"]);
+      sheet.getRange(1, 1, 1, 6).setFontWeight("bold");
     }
 
     sheet.appendRow([
@@ -34,7 +34,6 @@ function doGet(e) {
       p.phone || "",
       p.email || "",
       p.city || "",
-      p.window || "",
       p.plan || "",
     ]);
 
@@ -57,7 +56,6 @@ function testDoGet() {
       phone: "9999999999",
       email: "test@example.com",
       city: "Mumbai",
-      window: "First two weeks of May",
       plan: "Essential — ₹7,999 / month",
     },
   };

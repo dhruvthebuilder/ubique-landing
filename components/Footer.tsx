@@ -2,7 +2,9 @@ export default function Footer() {
   return (
     <footer className="px-6 md:px-12 py-12 border-t border-border flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div className="flex flex-col gap-3">
-        <span className="text-base font-semibold tracking-[0.2em] uppercase">Ubique</span>
+        <span className="text-base font-semibold tracking-[0.2em] uppercase">
+          <span className="text-accent">U</span>bique
+        </span>
         <p className="text-xs tracking-[0.12em] uppercase text-muted">
           Mumbai · Delhi NCR · Bengaluru · Hyderabad · Chennai
         </p>

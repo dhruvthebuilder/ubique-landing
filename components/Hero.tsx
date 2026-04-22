@@ -28,10 +28,12 @@ export default function Hero() {
     <section className="relative flex flex-col min-h-screen">
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 md:px-12 py-5 border-b border-border">
-        <span className="text-base font-semibold tracking-[0.2em] uppercase">Ubique</span>
+        <span className="text-base font-semibold tracking-[0.2em] uppercase">
+          <span className="text-accent">U</span>bique
+        </span>
         <button
           onClick={scrollToForm}
-          className="text-xs tracking-[0.15em] uppercase border border-ink px-4 py-2 hover:bg-ink hover:text-bg transition-colors duration-200"
+          className="text-xs tracking-[0.15em] uppercase bg-accent text-white px-4 py-2 hover:opacity-90 transition-opacity duration-200"
         >
           Reserve a Session →
         </button>
@@ -51,22 +53,23 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
-              You have too many
+              You have too many clothes
               <br />
-              clothes and nothing
+              but don&apos;t know which
               <br />
-              to wear.
+              one to wear.
             </motion.h1>
 
             <motion.p
-              className="text-base md:text-lg text-muted leading-relaxed max-w-sm mb-3"
+              className="text-base md:text-lg text-muted leading-relaxed max-w-md mb-3"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
             >
-              We come to your home. Photograph every garment. Move your wardrobe
-              to our facility. Every morning, the right outfit arrives at your door
-              before 8am. Every evening, we collect it.
+              Ubique studies your wardrobe, curates your outfits, and delivers
+              the right one to your door every morning. After delivery we collect
+              yesterday&apos;s clothes, clean them, and put them back in storage.
+              Nothing to think about. Ever.
             </motion.p>
 
             <motion.p
@@ -75,12 +78,12 @@ export default function Hero() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.45 }}
             >
-              Starting at ₹4,999 / month. First session free.
+              Starting at ₹1,999 / month. First session free.
             </motion.p>
 
             <motion.button
               onClick={scrollToForm}
-              className="text-sm tracking-[0.12em] uppercase bg-ink text-bg px-8 py-3.5 hover:opacity-85 transition-opacity duration-200"
+              className="text-sm tracking-[0.12em] uppercase bg-accent text-white px-8 py-3.5 hover:opacity-90 transition-opacity duration-200"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.55 }}

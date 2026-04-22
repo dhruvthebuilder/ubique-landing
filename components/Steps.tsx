@@ -22,8 +22,8 @@ const steps = [
   },
   {
     number: "03",
-    headline: "The right outfit arrives before 8am.",
-    detail: "Every morning we select the outfit that matches your calendar, the weather, and your week — and deliver it to your door before you need it. That evening, we collect what you wore, launder it, and return it to the facility.",
+    headline: "The right outfit arrives. We handle the rest.",
+    detail: "Every morning we deliver the outfit that works best for your day. After we drop it off, we collect what you wore yesterday, clean it, and return it to storage. The same cycle, every day, without you lifting a finger.",
     image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80",
     imageAlt: "Woman dressed and ready",
   },

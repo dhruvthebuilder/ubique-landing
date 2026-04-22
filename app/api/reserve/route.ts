@@ -17,7 +17,6 @@ export async function POST(req: NextRequest) {
       phone: body.phone ?? "",
       email: body.email ?? "",
       city: body.city ?? "",
-      window: body.window ?? "",
       plan: body.plan ?? "",
     });
 

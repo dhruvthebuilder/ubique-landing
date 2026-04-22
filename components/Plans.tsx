@@ -7,7 +7,7 @@ import { useRef } from "react";
 const plans = [
   {
     name: "Digital",
-    price: "₹4,999",
+    price: "₹1,999",
     tagline: "The full picture, without moving your clothes.",
     features: [
       "Archivist session at your home",

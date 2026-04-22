@@ -5,17 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const CITIES = ["Mumbai", "Delhi NCR", "Bengaluru", "Hyderabad", "Chennai", "Other"];
 
-const WINDOWS = [
-  "First two weeks of May",
-  "Last two weeks of May",
-  "First two weeks of June",
-  "Last two weeks of June",
-  "First two weeks of July",
-  "Last two weeks of July",
-];
-
 const PLANS = [
-  "Digital — ₹4,999 / month",
+  "Digital — ₹1,999 / month",
   "Essential — ₹7,999 / month",
   "Signature — ₹9,999 / month",
   "Not sure yet",
@@ -27,7 +18,6 @@ interface FormData {
   email: string;
   city: string;
   otherCity: string;
-  window: string;
   plan: string;
 }
 
@@ -38,7 +28,6 @@ export default function BookingForm() {
     email: "",
     city: "",
     otherCity: "",
-    window: "",
     plan: "",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -59,7 +48,6 @@ export default function BookingForm() {
           phone: form.phone,
           email: form.email,
           city: form.city === "Other" ? form.otherCity : form.city,
-          window: form.window,
           plan: form.plan,
         }),
       });
@@ -84,8 +72,8 @@ export default function BookingForm() {
           <br />
           No payment required.
         </h2>
-        <p className="text-sm text-muted tracking-wide max-w-sm">
-          Pick your city and a two-week window. We will confirm your exact date within 24 hours.
+        <p className="text-sm text-muted max-w-sm leading-relaxed">
+          Pick your city. We will reach out within 24 hours to confirm your archivist session.
         </p>
       </div>
 
@@ -104,7 +92,7 @@ export default function BookingForm() {
             </p>
             <p className="text-muted text-sm leading-relaxed mb-2">
               We have received your request for{" "}
-              <span className="text-ink">
+              <span className="text-ink font-medium">
                 {form.city === "Other" ? form.otherCity : form.city}
               </span>
               .
@@ -139,7 +127,7 @@ export default function BookingForm() {
                     onClick={() => setForm((f) => ({ ...f, city }))}
                     className={`px-4 py-3.5 text-sm tracking-wide border transition-colors duration-150 text-left ${
                       form.city === city
-                        ? "border-ink bg-ink text-bg"
+                        ? "border-accent bg-accent text-white"
                         : "border-border text-ink hover:border-ink"
                     }`}
                   >
@@ -199,20 +187,9 @@ export default function BookingForm() {
                   />
                   <select
                     required
-                    value={form.window}
-                    onChange={(e) => setForm((f) => ({ ...f, window: e.target.value }))}
-                    className={`${inputClass} md:col-span-1 cursor-pointer`}
-                  >
-                    <option value="" disabled>Preferred two-week window</option>
-                    {WINDOWS.map((w) => (
-                      <option key={w} value={w}>{w}</option>
-                    ))}
-                  </select>
-                  <select
-                    required
                     value={form.plan}
                     onChange={(e) => setForm((f) => ({ ...f, plan: e.target.value }))}
-                    className={`${inputClass} md:col-span-1 cursor-pointer`}
+                    className={`${inputClass} md:col-span-2 cursor-pointer`}
                   >
                     <option value="" disabled>Plan you are considering</option>
                     {PLANS.map((p) => (
@@ -230,7 +207,7 @@ export default function BookingForm() {
             <button
               type="submit"
               disabled={!form.city || loading}
-              className="self-start text-sm tracking-[0.12em] uppercase bg-ink text-bg px-10 py-4 hover:opacity-85 transition-opacity duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="self-start text-sm tracking-[0.12em] uppercase bg-accent text-white px-10 py-4 hover:opacity-90 transition-opacity duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {loading ? "Reserving..." : "Reserve Session"}
             </button>
