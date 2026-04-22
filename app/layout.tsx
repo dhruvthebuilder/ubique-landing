@@ -10,13 +10,13 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Ubique — Your Wardrobe, Everywhere",
+  title: "Ubique | Your Wardrobe, Everywhere",
   description: "Ubique digitises, stores, and delivers your wardrobe. Daily. Now accepting reservations in Mumbai, Delhi, Bengaluru, Hyderabad, and Chennai.",
   icons: {
     icon: "/favicon.svg",
   },
   openGraph: {
-    title: "Ubique — Your Wardrobe, Everywhere",
+    title: "Ubique | Your Wardrobe, Everywhere",
     description: "Reserve your archivist session. No payment required.",
     type: "website",
   },
