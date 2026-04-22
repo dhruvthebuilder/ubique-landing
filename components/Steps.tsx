@@ -3,22 +3,29 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 
 const steps = [
   {
     number: "01",
-    headline: "An archivist visits your home.",
-    detail: "Photographs every garment. Builds your digital wardrobe. Takes two hours.",
+    headline: "We come to your home.",
+    detail: "An Ubique archivist photographs every garment you own, tags each one, and builds your complete digital wardrobe. The entire session takes two hours. You do nothing except let us in.",
+    image: "https://images.unsplash.com/photo-1558618042-5d0d3a50ddc8?w=600&q=80",
+    imageAlt: "Wardrobe being catalogued",
   },
   {
     number: "02",
-    headline: "Your clothes move to an Ubique centre.",
-    detail: "Climate-controlled. Cleaned. Pressed. Ready.",
+    headline: "Your entire wardrobe moves to us.",
+    detail: "We transport everything to a climate-controlled Ubique facility nearby. Your clothes are cleaned, pressed, and stored individually — ready to be picked at any moment. Nothing sits crumpled in a suitcase.",
+    image: "https://images.unsplash.com/photo-1489987707849-0b8b0e46e3c8?w=600&q=80",
+    imageAlt: "Freshly laundered and pressed shirts on hangers",
   },
   {
     number: "03",
-    headline: "The right outfit arrives every morning.",
-    detail: "Matched to your calendar, the weather, your week. Worn clothes collected the same evening.",
+    headline: "The right outfit arrives before 8am.",
+    detail: "Every morning we select the outfit that matches your calendar, the weather, and your week — and deliver it to your door before you need it. That evening, we collect what you wore, launder it, and return it to the facility.",
+    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80",
+    imageAlt: "Pressed suit ready for morning",
   },
 ];
 
@@ -29,21 +36,35 @@ function Step({ step, index }: { step: (typeof steps)[0]; index: number }) {
   return (
     <motion.div
       ref={ref}
-      className="flex flex-col gap-6 py-12 md:py-16 border-b border-border last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0 md:px-8 first:pl-0 last:pr-0"
+      className="flex flex-col border-b border-border last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0"
       initial={{ opacity: 0, y: 24 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: index * 0.12 }}
     >
-      <span className="text-[clamp(3rem,6vw,5rem)] font-semibold tracking-[-0.04em] text-border leading-none select-none">
-        {step.number}
-      </span>
-      <div className="flex flex-col gap-3">
-        <p className="text-xl md:text-2xl font-medium leading-tight tracking-[-0.01em]">
-          {step.headline}
-        </p>
-        <p className="text-sm md:text-base text-muted leading-relaxed">
-          {step.detail}
-        </p>
+      {/* Image */}
+      <div className="relative h-52 md:h-64 overflow-hidden border-b border-border">
+        <Image
+          src={step.image}
+          alt={step.imageAlt}
+          fill
+          className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+      </div>
+
+      {/* Text */}
+      <div className="flex flex-col gap-5 p-8 md:p-10 flex-1">
+        <span className="text-[clamp(3rem,6vw,5rem)] font-semibold tracking-[-0.04em] text-border leading-none select-none">
+          {step.number}
+        </span>
+        <div className="flex flex-col gap-3">
+          <p className="text-xl md:text-2xl font-medium leading-tight tracking-[-0.01em]">
+            {step.headline}
+          </p>
+          <p className="text-sm md:text-base text-muted leading-relaxed">
+            {step.detail}
+          </p>
+        </div>
       </div>
     </motion.div>
   );
@@ -51,7 +72,7 @@ function Step({ step, index }: { step: (typeof steps)[0]; index: number }) {
 
 export default function Steps() {
   return (
-    <section className="px-6 md:px-12 border-t border-border">
+    <section className="border-t border-border">
       <div className="grid md:grid-cols-3">
         {steps.map((step, i) => (
           <Step key={step.number} step={step} index={i} />

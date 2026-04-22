@@ -6,12 +6,6 @@ export default function Footer() {
         <p className="text-xs tracking-[0.12em] uppercase text-muted">
           Mumbai · Delhi NCR · Bengaluru · Hyderabad · Chennai
         </p>
-        <a
-          href="mailto:hello@ubique.in"
-          className="text-xs text-muted hover:text-ink transition-colors duration-150"
-        >
-          hello@ubique.in
-        </a>
       </div>
       <p className="text-[11px] text-muted max-w-xs leading-relaxed">
         Ubique is in pre-launch. Reserving a session does not constitute a purchase.

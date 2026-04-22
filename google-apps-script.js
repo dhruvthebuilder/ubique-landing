@@ -21,7 +21,7 @@ function doGet(e) {
   try {
     const p = e.parameter;
 
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    const sheet = SpreadsheetApp.openById("PASTE_YOUR_SHEET_ID_HERE").getActiveSheet();
 
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(["Timestamp", "Name", "Phone", "Email", "City", "Window", "Plan"]);
