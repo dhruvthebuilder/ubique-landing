@@ -14,7 +14,7 @@
  * 7. Redeploy on Vercel (push a commit or trigger manually)
  *
  * The script will append one row per reservation to the active sheet:
- * Timestamp | Name | Phone | Email | City | Window | Plan
+ * Timestamp | Name | Phone | Email | City | Plan
  */
 
 function doGet(e) {

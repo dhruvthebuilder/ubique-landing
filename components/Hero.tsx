@@ -53,11 +53,11 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
-              Your wardrobe is full.
+              You own a lot of clothes.
               <br />
-              Your mornings
+              You just don&apos;t know
               <br />
-              <span className="text-accent">are empty.</span>
+              <span className="text-accent">how to style them.</span>
             </motion.h1>
 
             <motion.p
