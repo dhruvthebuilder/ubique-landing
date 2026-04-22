@@ -6,16 +6,16 @@ import MarqueeText from "./MarqueeText";
 
 const heroImages = [
   {
-    src: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80",
-    alt: "Pressed suit on hanger",
+    src: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=800&q=80",
+    alt: "Woman in polished outfit",
   },
   {
-    src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
-    alt: "Organised clothing rack",
+    src: "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&w=800&q=80",
+    alt: "Man in tailored suit",
   },
   {
-    src: "https://images.unsplash.com/photo-1489987707849-0b8b0e46e3c8?w=600&q=80",
-    alt: "Laundered shirts ready for delivery",
+    src: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=80",
+    alt: "Woman browsing fashion",
   },
 ];
 

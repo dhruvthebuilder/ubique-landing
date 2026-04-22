@@ -10,22 +10,22 @@ const steps = [
     number: "01",
     headline: "We come to your home.",
     detail: "An Ubique archivist photographs every garment you own, tags each one, and builds your complete digital wardrobe. The entire session takes two hours. You do nothing except let us in.",
-    image: "https://images.unsplash.com/photo-1558618042-5d0d3a50ddc8?w=600&q=80",
-    imageAlt: "Wardrobe being catalogued",
+    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80",
+    imageAlt: "Organised clothing rail",
   },
   {
     number: "02",
     headline: "Your entire wardrobe moves to us.",
     detail: "We transport everything to a climate-controlled Ubique facility nearby. Your clothes are cleaned, pressed, and stored individually — ready to be picked at any moment. Nothing sits crumpled in a suitcase.",
-    image: "https://images.unsplash.com/photo-1489987707849-0b8b0e46e3c8?w=600&q=80",
-    imageAlt: "Freshly laundered and pressed shirts on hangers",
+    image: "https://images.unsplash.com/photo-1489987707849-0b8b0e46e3c8?auto=format&fit=crop&w=800&q=80",
+    imageAlt: "Freshly laundered and pressed shirts",
   },
   {
     number: "03",
     headline: "The right outfit arrives before 8am.",
     detail: "Every morning we select the outfit that matches your calendar, the weather, and your week — and deliver it to your door before you need it. That evening, we collect what you wore, launder it, and return it to the facility.",
-    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80",
-    imageAlt: "Pressed suit ready for morning",
+    image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80",
+    imageAlt: "Woman dressed and ready",
   },
 ];
 
