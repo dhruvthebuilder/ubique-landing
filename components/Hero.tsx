@@ -53,11 +53,11 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
-              You have too many clothes
+              Your wardrobe is full.
               <br />
-              but don&apos;t know which
+              Your mornings
               <br />
-              one to wear.
+              <span className="text-accent">are empty.</span>
             </motion.h1>
 
             <motion.p
@@ -66,10 +66,11 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
             >
-              Ubique studies your wardrobe, curates your outfits, and delivers
-              the right one to your door every morning. After delivery we collect
-              yesterday&apos;s clothes, clean them, and put them back in storage.
-              Nothing to think about. Ever.
+              Ubique studies every garment you own, learns how you carry each one,
+              and curates the exact look for your day — delivered to your door before
+              the morning begins. After we drop it off, we collect what you wore the
+              day before, clean it, and return it to storage. You never decide.
+              You never search. You never repeat the same uninspired choice again.
             </motion.p>
 
             <motion.p
