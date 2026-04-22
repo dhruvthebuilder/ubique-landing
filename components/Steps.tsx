@@ -17,7 +17,7 @@ const steps = [
     number: "02",
     headline: "Your entire wardrobe moves to us.",
     detail: "We transport everything to a climate-controlled Ubique facility nearby. Your clothes are cleaned, pressed, and stored individually — ready to be picked at any moment. Nothing sits crumpled in a suitcase.",
-    image: "https://images.unsplash.com/photo-1489987707849-0b8b0e46e3c8?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-APUvZYCjPJ0?auto=format&fit=crop&w=800&q=80",
     imageAlt: "Freshly laundered and pressed shirts",
   },
   {
