@@ -5,10 +5,10 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 
 const features = [
-  "Curated edits built around your existing wardrobe and what you actually reach for",
-  "Filtered by your body shape, skin tone, fit preferences, and occasion",
-  "Direct purchase through the Ubique app, added to your digital wardrobe automatically",
-  "Every piece chosen to pair with at least three things you already own",
+  "Curated edits built around your existing wardrobe",
+  "Filtered by body shape, skin tone, fit, and occasion",
+  "AI try-on: see how each piece looks on you before you buy",
+  "Purchase through the app — added to your digital wardrobe automatically",
 ];
 
 export default function PersonalShopping() {
@@ -46,15 +46,11 @@ export default function PersonalShopping() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
         >
           <p className="text-base md:text-lg text-muted leading-relaxed mb-8">
-            Once we know your wardrobe, your measurements, your body shape, and your
-            skin tone — our AI-enabled stylist takes over completely. Every recommendation
-            is built on what we know about you specifically: the silhouettes that flatter
-            your frame, the colours that complement your complexion, and the cuts that fit
-            the way you actually move through your day. We surface pieces from India&apos;s top
-            brands that will look good on you, pair with what you already own, and earn
-            their place in a wardrobe that works — not sit forgotten behind everything else.
-            Every recommendation is deeply personal. Nothing is pulled from a generic
-            trending list and handed to you as advice.
+            Once we know your wardrobe, measurements, body shape, and skin tone —
+            our AI-enabled stylist curates what to buy next. Not trends. Not guesses.
+            Pieces from India&apos;s top brands chosen for your frame, your complexion,
+            and what you already own — so every addition earns its place rather than
+            adding to the clutter. Every recommendation is personal. Nothing is generic.
           </p>
           <p className="text-xs tracking-[0.12em] uppercase text-muted border-l-2 border-accent pl-4">
             Partnered with leading Indian fashion brands across formal, casual, and occasion wear.

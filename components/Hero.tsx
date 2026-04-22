@@ -67,9 +67,9 @@ export default function Hero() {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
             >
               Ubique studies every garment you own, learns how you carry each one,
-              and curates the exact look for your day — delivered to your door before
-              the morning begins. After we drop it off, we collect what you wore the
-              day before, clean it, and return it to storage. You never decide.
+              and curates the exact look for your day — you approve it on the app,
+              we deliver it. After we drop it off, we collect what you wore the day
+              before, clean it, and return it to storage. You never decide.
               You never search. You never repeat the same uninspired choice again.
             </motion.p>
 
