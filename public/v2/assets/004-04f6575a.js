@@ -158,7 +158,7 @@ function ImagePlaceholder({ label = "Image", aspect = "4/3", className = "", not
   const alt = filename || label;
   const slot = filename ? filename.replace(/\.(jpe?g|png|webp)$/i, "") : "";
   const imgSrc = slot ? "/generated/v2/" + slot + ".webp" : "";
-  const [loaded, setLoaded] = React.useState(false);
+  const [errored, setErrored] = React.useState(!imgSrc);
   return (
     <div
       role="img"
@@ -167,20 +167,17 @@ function ImagePlaceholder({ label = "Image", aspect = "4/3", className = "", not
       className={`relative w-full overflow-hidden rounded-2xl border border-primary/15 bg-card-2 ${className}`}
       style={{ aspectRatio: aspect }}
     >
-      {imgSrc ? (
+      {imgSrc && !errored ? (
         <img
           src={imgSrc}
           alt=""
-          loading="lazy"
-          onLoad={() => setLoaded(true)}
-          onError={(e) => { e.currentTarget.style.display = "none"; }}
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-          style={{ opacity: loaded ? 1 : 0 }}
+          onError={() => setErrored(true)}
+          className="absolute inset-0 w-full h-full object-cover"
         />
       ) : null}
-      <div className="absolute inset-0 pointer-events-none" style={{ opacity: loaded ? 0 : 1, transition: "opacity .5s", background: "radial-gradient(ellipse at 30% 30%, rgba(207,221,181,0.10), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(207,221,181,0.06), transparent 60%)" }} />
-      {!loaded && (
+      {errored && (
         <>
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(207,221,181,0.10), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(207,221,181,0.06), transparent 60%)" }} />
           <svg className="absolute inset-0 w-full h-full opacity-30 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100">
             <line x1="0" y1="0" x2="100" y2="100" stroke="#CFDDB5" strokeWidth="0.25" strokeDasharray="1 1" vectorEffect="non-scaling-stroke" />
             <line x1="100" y1="0" x2="0" y2="100" stroke="#CFDDB5" strokeWidth="0.25" strokeDasharray="1 1" vectorEffect="non-scaling-stroke" />

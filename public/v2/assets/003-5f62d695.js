@@ -304,11 +304,41 @@ function PricingSection() {
 /* RESERVE FORM ====================================== */
 function ReserveForm() {
   const [submitted, setSubmitted] = useStateB(false);
+  const [sending, setSending] = useStateB(false);
+  const [errorMsg, setErrorMsg] = useStateB("");
   const [form, setForm] = useStateB({ name: "", phone: "", email: "", pincode: "", plan: "" });
   const upd = (k) => (e) => setForm({ ...form, [k]: e.target.value });
   const inputCls = "w-full bg-transparent border-0 border-b border-primary/15 pb-3 pt-2 text-base focus:outline-none focus:border-primary transition-colors";
+  async function submit(e) {
+    e.preventDefault();
+    if (sending || submitted) return;
+    setSending(true);
+    setErrorMsg("");
+    const payload = {
+      name: form.name,
+      phone: form.phone,
+      email: form.email,
+      pincode: form.pincode,
+      city: form.pincode,
+      plan: form.plan,
+      variant: window.__UBIQUE_VARIANT__ || "v2"
+    };
+    try {
+      const res = await fetch("/api/reserve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error("Server responded " + res.status);
+      setSubmitted(true);
+    } catch (err) {
+      setErrorMsg("Could not send. Try again or write to hello@ubique.in.");
+    } finally {
+      setSending(false);
+    }
+  }
   return (
-    <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+    <form onSubmit={submit} className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
       <div>
         <label className="eyebrow text-primary/55 mb-2 block">Name</label>
         <input required value={form.name} onChange={upd("name")} className={inputCls} placeholder="Enter your name" style={{ color: "#E1E0CC" }} />
@@ -335,13 +365,14 @@ function ReserveForm() {
         </select>
       </div>
       <div className="md:col-span-2 flex items-center gap-6 flex-wrap pt-4">
-        <button type="submit" className="group inline-flex items-center gap-2 hover:gap-3 transition-all duration-300 pl-6 pr-1.5 py-1.5 rounded-full bg-primary text-black text-sm sm:text-base font-medium">
-          <span>{submitted ? "We will be in touch" : "Reserve my spot"}</span>
+        <button type="submit" disabled={submitted || sending} className="group inline-flex items-center gap-2 hover:gap-3 transition-all duration-300 pl-6 pr-1.5 py-1.5 rounded-full bg-primary text-black text-sm sm:text-base font-medium disabled:opacity-70">
+          <span>{submitted ? "We will be in touch" : sending ? "Sending…" : "Reserve my spot"}</span>
           <span className="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-black text-primary group-hover:scale-110 transition-transform">
             <IconArrowRight size={14} />
           </span>
         </button>
         <span className="text-xs text-primary/50 tracking-wide">Free · We will be in touch when your slot opens up</span>
+        {errorMsg ? <span className="text-xs text-red-300">{errorMsg}</span> : null}
       </div>
     </form>
   );

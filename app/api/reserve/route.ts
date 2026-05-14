@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
       phone: body.phone ?? "",
       email: body.email ?? "",
       city: body.city ?? "",
+      pincode: body.pincode ?? "",
       plan: body.plan ?? "",
       variant: body.variant ?? "",
     });
