@@ -346,6 +346,12 @@ function ReserveForm() {
         window.posthog.identify(payload.email, { name: payload.name, phone: payload.phone, pincode: payload.pincode });
       }
       track("reservation_submitted", { variant: payload.variant, plan: payload.plan, pincode: payload.pincode });
+      if (typeof window.fbq === "function") {
+        window.fbq("track", "Lead", { content_name: "Reservation", content_category: payload.variant });
+      }
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "reservation_submitted", { variant: payload.variant, plan: payload.plan });
+      }
     } catch (err) {
       setErrorMsg("Could not send. Try again or write to hello@ubique.in.");
       track("reservation_failed", { variant: payload.variant, error: String((err && err.message) || err) });
