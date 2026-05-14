@@ -397,8 +397,12 @@ function CinematicSlot({ label, className = '', tone = 'mid' }) {
   const slotId = slotIdFromLabel(label);
   const imgSrc = '/generated/v1/' + slotId + '.webp';
   const [errored, setErrored] = React.useState(false);
+  // If the caller already set a position class, don't prepend 'relative' —
+  // Tailwind's source order makes 'relative' win over 'absolute' and kills inset-0 sizing.
+  const positioned = /\b(?:absolute|relative|fixed|sticky)\b/.test(className);
+  const baseClass = positioned ? 'overflow-hidden ' : 'relative overflow-hidden ';
   return (
-    <div className={'relative overflow-hidden ' + className} style={{ background: grad }}>
+    <div className={baseClass + className} style={{ background: grad }}>
       {!errored && (
         <img
           src={imgSrc}

@@ -159,12 +159,16 @@ function ImagePlaceholder({ label = "Image", aspect = "4/3", className = "", not
   const slot = filename ? filename.replace(/\.(jpe?g|png|webp)$/i, "") : "";
   const imgSrc = slot ? "/generated/v2/" + slot + ".webp" : "";
   const [errored, setErrored] = React.useState(!imgSrc);
+  const positioned = /\b(?:absolute|relative|fixed|sticky)\b/.test(className);
+  const baseClass = positioned
+    ? "w-full overflow-hidden rounded-2xl border border-primary/15 bg-card-2"
+    : "relative w-full overflow-hidden rounded-2xl border border-primary/15 bg-card-2";
   return (
     <div
       role="img"
       aria-label={alt}
       data-filename={filename}
-      className={`relative w-full overflow-hidden rounded-2xl border border-primary/15 bg-card-2 ${className}`}
+      className={`${baseClass} ${className}`}
       style={{ aspectRatio: aspect }}
     >
       {imgSrc && !errored ? (
