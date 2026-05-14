@@ -29,6 +29,12 @@ export function proxy(req: NextRequest) {
 
   const res = NextResponse.rewrite(url);
   res.headers.set('x-ubique-variant', assigned);
+  // Never let the edge cache a variant-assignment response — otherwise many
+  // cookie-less first-time visitors collapse into one cache key and all see
+  // the same variant. Each visit must hit the proxy.
+  res.headers.set('Cache-Control', 'private, no-store, max-age=0, must-revalidate');
+  res.headers.set('CDN-Cache-Control', 'no-store');
+  res.headers.set('Vercel-CDN-Cache-Control', 'no-store');
 
   // Persist only freshly-assigned variants; overrides stay session-scoped.
   if (!fromCookie && !override) {
