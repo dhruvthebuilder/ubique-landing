@@ -306,9 +306,20 @@ function ReserveForm() {
   const [submitted, setSubmitted] = useStateB(false);
   const [sending, setSending] = useStateB(false);
   const [errorMsg, setErrorMsg] = useStateB("");
+  const [startedTracked, setStartedTracked] = useStateB(false);
   const [form, setForm] = useStateB({ name: "", phone: "", email: "", pincode: "", plan: "" });
   const upd = (k) => (e) => setForm({ ...form, [k]: e.target.value });
   const inputCls = "w-full bg-transparent border-0 border-b border-primary/15 pb-3 pt-2 text-base focus:outline-none focus:border-primary transition-colors";
+  function track(event, props) {
+    if (typeof window !== "undefined" && window.posthog && window.posthog.capture) {
+      window.posthog.capture(event, props || {});
+    }
+  }
+  function onFirstFocus() {
+    if (startedTracked) return;
+    setStartedTracked(true);
+    track("reservation_started", { variant: window.__UBIQUE_VARIANT__ });
+  }
   async function submit(e) {
     e.preventDefault();
     if (sending || submitted) return;
@@ -331,14 +342,19 @@ function ReserveForm() {
       });
       if (!res.ok) throw new Error("Server responded " + res.status);
       setSubmitted(true);
+      if (payload.email && window.posthog && window.posthog.identify) {
+        window.posthog.identify(payload.email, { name: payload.name, phone: payload.phone, pincode: payload.pincode });
+      }
+      track("reservation_submitted", { variant: payload.variant, plan: payload.plan, pincode: payload.pincode });
     } catch (err) {
       setErrorMsg("Could not send. Try again or write to hello@ubique.in.");
+      track("reservation_failed", { variant: payload.variant, error: String((err && err.message) || err) });
     } finally {
       setSending(false);
     }
   }
   return (
-    <form onSubmit={submit} className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+    <form onSubmit={submit} onFocus={onFirstFocus} className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
       <div>
         <label className="eyebrow text-primary/55 mb-2 block">Name</label>
         <input required value={form.name} onChange={upd("name")} className={inputCls} placeholder="Enter your name" style={{ color: "#E1E0CC" }} />
