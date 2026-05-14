@@ -15,6 +15,7 @@
     "generate-images:v1": "tsx scripts/generate-images.ts --variant=v1",
     "generate-images:v2": "tsx scripts/generate-images.ts --variant=v2",
     "generate-images:force": "tsx scripts/generate-images.ts --force",
+    "import-images": "tsx scripts/import-images.ts",
     "verify-slots": "tsx scripts/slot-discovery.ts"
   },
   "dependencies": {

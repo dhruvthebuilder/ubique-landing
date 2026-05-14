@@ -62,3 +62,6 @@ platform.openapi.yml
 /public/v1/index.html
 /public/v2/index.html
 
+# pending-image intake: never committed (raw PNGs/JPGs from manual gen)
+/_pending-images/
+
