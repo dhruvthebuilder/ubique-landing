@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ubique · a wardrobe that thinks</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#CDD9C0',
+          'primary-2': '#D2DBC4',
+          moss:    '#8B9583',
+          sage:    '#6E7A66',
+          forest:  '#1B2A1B',
+          deep:    '#0A0F0A',
+          panel:   '#101410',
+          card:    '#171C17',
+        },
+        fontFamily: {
+          serif: ['"Instrument Serif"', 'serif'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  * { font-family: 'Almarai', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  html, body { background: #000; color: #E1E0CC; -webkit-font-smoothing: antialiased; }
+  body { letter-spacing: -0.005em; }
+
+  /* SVG noise overlays */
+  .noise-overlay {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='5'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='1'/></svg>");
+  }
+  .bg-noise {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='1'/></svg>");
+  }
+
+  /* Cinematic moving gradient (stands in for hero video) */
+  .cinematic-bg {
+    background:
+      radial-gradient(60% 80% at 20% 30%, rgba(74, 102, 70, 0.55) 0%, transparent 60%),
+      radial-gradient(70% 90% at 80% 70%, rgba(34, 54, 36, 0.85) 0%, transparent 65%),
+      radial-gradient(50% 60% at 50% 100%, rgba(140, 160, 130, 0.18) 0%, transparent 70%),
+      linear-gradient(180deg, #050805 0%, #0A100A 60%, #050805 100%);
+    background-size: 200% 200%, 220% 220%, 180% 180%, 100% 100%;
+    animation: drift 30s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0%   { background-position: 0% 0%, 100% 100%, 50% 100%, 0 0; }
+    100% { background-position: 30% 20%, 70% 80%, 60% 90%, 0 0; }
+  }
+
+  .feature-bg {
+    background:
+      radial-gradient(80% 100% at 30% 20%, rgba(70, 96, 64, 0.55), transparent 60%),
+      radial-gradient(60% 80% at 70% 90%, rgba(28, 46, 30, 0.7), transparent 60%),
+      linear-gradient(180deg, #0A100A, #060906);
+  }
+
+  /* Word pull-up */
+  .wpu-word-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.06em;
+    line-height: inherit;
+    white-space: nowrap;
+    word-break: keep-all;
+  }
+  .wpu-word { white-space: nowrap; word-break: keep-all; }
+  .wpu-word {
+    display: inline-block;
+    transform: translateY(32px);
+    opacity: 0;
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .wpu-word.is-in { transform: translateY(0); opacity: 1; }
+
+  .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+  .fade-up.is-in { opacity: 1; transform: translateY(0); }
+
+  .scale-in { opacity: 0; transform: scale(0.96); transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+  .scale-in.is-in { opacity: 1; transform: scale(1); }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 400;
+    font-size: 10px;
+    color: #CDD9C0;
+  }
+  @media (min-width: 640px) { .eyebrow { font-size: 11px; } }
+
+  .display { letter-spacing: -0.07em; line-height: 0.85; }
+  .display-mid { letter-spacing: -0.04em; line-height: 0.95; }
+
+  /* Cinematic vignette */
+  .vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 25%, transparent 60%, rgba(0,0,0,0.6) 100%),
+      radial-gradient(120% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.45) 100%);
+    z-index: 2;
+  }
+
+  /* Ticker marquee */
+  @keyframes ticker {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .ticker-track {
+    animation: ticker 40s linear infinite;
+    display: inline-flex;
+    gap: 3rem;
+    padding-right: 3rem;
+    white-space: nowrap;
+  }
+
+  /* Scroll-linked progress dot */
+  .scroll-prog {
+    transform: scaleX(var(--prog, 0));
+    transform-origin: left;
+    transition: transform 0.1s linear;
+  }
+
+  /* Selection */
+  ::selection { background: #CDD9C0; color: #050805; }
+
+  /* Inputs */
+  input.field, select.field, textarea.field {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(205, 217, 192, 0.18);
+    color: #E1E0CC;
+    transition: all 0.3s ease;
+  }
+  input.field:focus, select.field:focus, textarea.field:focus {
+    outline: none;
+    border-color: rgba(205, 217, 192, 0.55);
+    background: rgba(205, 217, 192, 0.04);
+  }
+  input.field::placeholder { color: rgba(205, 217, 192, 0.35); }
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%23CDD9C0' stroke-width='1.4' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  /* Hover link underline */
+  .nav-link { position: relative; }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 50%; right: 50%; bottom: -3px;
+    height: 1px;
+    background: #E1E0CC;
+    transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1), right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .nav-link:hover::after { left: 0; right: 0; }
+
+  /* Cinematic char reveal */
+  .ar-char { transition: opacity 0.05s linear; }
+
+  /* Step number giant */
+  .step-num { font-feature-settings: 'tnum' 1; }
+
+  /* Hover lift on cards */
+  .lift { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease; }
+  .lift:hover { transform: translateY(-4px); border-color: rgba(205, 217, 192, 0.28); }
+
+  /* Asterisk float */
+  @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .star-spin { animation: spin-slow 24s linear infinite; display: inline-block; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<!-- TRACKING (injected at build via scripts/inject-keys.ts) -->
+<script>
+  (function () {
+    var m = (document.cookie.match(/(?:^|;\s*)ubique_variant=(v[12])/) || [])[1] || 'v1';
+    window.__UBIQUE_VARIANT__ = m;
+  })();
+</script>
+
+<!-- PostHog -->
+<script>
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  if ('%NEXT_PUBLIC_POSTHOG_KEY%' && '%NEXT_PUBLIC_POSTHOG_KEY%'.charAt(0) !== '%') {
+    posthog.init('%NEXT_PUBLIC_POSTHOG_KEY%', { api_host: '%NEXT_PUBLIC_POSTHOG_HOST%', person_profiles: 'identified_only' });
+    posthog.register({ variant: window.__UBIQUE_VARIANT__ });
+    posthog.capture('variant_assigned', { variant: window.__UBIQUE_VARIANT__ });
+  }
+</script>
+
+<!-- Meta Pixel -->
+<script>
+  if ('%NEXT_PUBLIC_META_PIXEL_ID%' && '%NEXT_PUBLIC_META_PIXEL_ID%'.charAt(0) !== '%') {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '%NEXT_PUBLIC_META_PIXEL_ID%');
+    fbq('track', 'PageView');
+  }
+</script>
+
+<!-- Google Ads -->
+<script>
+  if ('%NEXT_PUBLIC_GOOGLE_ADS_ID%' && '%NEXT_PUBLIC_GOOGLE_ADS_ID%'.charAt(0) !== '%') {
+    var gads = document.createElement('script');
+    gads.async = true;
+    gads.src = 'https://www.googletagmanager.com/gtag/js?id=%NEXT_PUBLIC_GOOGLE_ADS_ID%';
+    document.head.appendChild(gads);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '%NEXT_PUBLIC_GOOGLE_ADS_ID%');
+  }
+</script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="env,react">
+const { useEffect, useRef, useState, useLayoutEffect } = React;
+
+/* ---------- icons ---------- */
+const ArrowRight = ({ className = '', strokeWidth = 1.8, size = 18 }) => (
+  <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+  </svg>
+);
+const Check = ({ className = '', size = 14, strokeWidth = 2.2 }) => (
+  <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20 6 9 17l-5-5" />
+  </svg>
+);
+const Plus = ({ size = 14 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><path d="M12 5v14M5 12h14"/></svg>
+);
+const IconShirt = ({ size = 28 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20.4 9 17 5l-3 1.5a4 4 0 0 1-4 0L7 5 3.6 9a1 1 0 0 0 .3 1.4L6.5 12V20a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-8l2.6-1.6a1 1 0 0 0 .3-1.4Z"/>
+  </svg>
+);
+const IconSparkles = ({ size = 28 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9.94 14.34a1 1 0 0 0 0-1.34L7.5 10.5 5 13l2.44 2.44a1 1 0 0 0 1.42 0z"/>
+    <path d="m14 7 1.5 3 3 1.5-3 1.5L14 16l-1.5-3-3-1.5 3-1.5L14 7z"/>
+    <path d="M5 4v3M3.5 5.5h3M19 17v3M17.5 18.5h3"/>
+  </svg>
+);
+const IconSunrise = ({ size = 28 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2v4M4.93 7.93l2.83 2.83M2 14h4M18 14h4M16.24 10.76l2.83-2.83"/>
+    <path d="M8 14a4 4 0 0 1 8 0"/>
+    <path d="M3 20h18"/>
+  </svg>
+);
+
+/* ---------- inView ---------- */
+function useInView(opts = {}) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!ref.current) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setInView(true); obs.disconnect(); }
+    }, { rootMargin: opts.margin || '-40px', threshold: opts.threshold ?? 0.1 });
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, inView];
+}
+
+/* ---------- WordsPullUp ---------- */
+function WordsPullUp({ text, className = '', stagger = 0.08, baseDelay = 0, as: Tag = 'h2', showAsterisk = false }) {
+  const [ref, inView] = useInView({ margin: '-60px' });
+  const words = text.split(' ');
+  return (
+    <Tag ref={ref} className={className}>
+      {words.map((w, i) => {
+        const isLast = i === words.length - 1;
+        return (
+          <span key={i} className="wpu-word-mask">
+            <span
+              className={'wpu-word ' + (inView ? 'is-in' : '')}
+              style={{ transitionDelay: (baseDelay + i * stagger) + 's' }}
+            >
+              {w}
+              {isLast && showAsterisk && (
+                <sup className="absolute" style={{ top: '0.18em', right: '-0.32em', fontSize: '0.31em' }}>
+                  <span className="star-spin inline-block">✦</span>
+                </sup>
+              )}
+              {!isLast ? '\u00A0' : ''}
+            </span>
+          </span>
+        );
+      })}
+    </Tag>
+  );
+}
+
+/* ---------- WordsPullUpMultiStyle ---------- */
+function WordsPullUpMultiStyle({ segments, className = '', stagger = 0.07, baseDelay = 0, as: Tag = 'h2' }) {
+  const [ref, inView] = useInView({ margin: '-60px' });
+  let flat = [];
+  segments.forEach((seg, si) => {
+    const ws = seg.text.split(' ');
+    ws.forEach((w, wi) => flat.push({ word: w, cls: seg.className || '', segLast: wi === ws.length - 1, si }));
+  });
+  return (
+    <Tag ref={ref} className={'flex flex-wrap ' + className}>
+      {flat.map((f, i) => (
+        <span key={i} className={'wpu-word-mask ' + f.cls}>
+          <span className={'wpu-word ' + (inView ? 'is-in' : '')} style={{ transitionDelay: (baseDelay + i * stagger) + 's' }}>
+            {f.word}{i < flat.length - 1 ? '\u00A0' : ''}
+          </span>
+        </span>
+      ))}
+    </Tag>
+  );
+}
+
+/* ---------- ScrollLetterReveal ---------- */
+function ScrollLetterReveal({ text, className = '' }) {
+  const ref = useRef(null);
+  const charRefs = useRef([]);
+  useEffect(() => {
+    const handler = () => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const wh = window.innerHeight;
+      const start = wh * 0.85;
+      const end = wh * 0.2;
+      const total = (start - rect.top) / (start - end);
+      const p = Math.max(0, Math.min(1, total));
+      const chars = charRefs.current.filter(Boolean);
+      chars.forEach((el, idx) => {
+        const cp = idx / chars.length;
+        const local = (p - (cp - 0.05)) / 0.15;
+        const op = Math.max(0.18, Math.min(1, 0.18 + local * 0.82));
+        el.style.opacity = op;
+      });
+    };
+    handler();
+    window.addEventListener('scroll', handler, { passive: true });
+    window.addEventListener('resize', handler);
+    return () => { window.removeEventListener('scroll', handler); window.removeEventListener('resize', handler); };
+  }, []);
+  return (
+    <p ref={ref} className={className}>
+      {text.split('').map((c, i) => (
+        <span key={i} ref={(el) => (charRefs.current[i] = el)} className="ar-char" style={{ opacity: 0.2 }}>
+          {c}
+        </span>
+      ))}
+    </p>
+  );
+}
+
+/* ---------- FadeUp ---------- */
+function FadeUp({ delay = 0, className = '', children, as: Tag = 'div' }) {
+  const [ref, inView] = useInView({ margin: '-40px' });
+  return (
+    <Tag ref={ref} className={'fade-up ' + (inView ? 'is-in ' : '') + className} style={{ transitionDelay: delay + 's' }}>
+      {children}
+    </Tag>
+  );
+}
+
+/* ---------- placeholder visual (patched: shows generated image when available) ---------- */
+function slotIdFromLabel(label) {
+  return String(label).split('·')[0].trim().toLowerCase().replace(/\s+/g, '-');
+}
+function CinematicSlot({ label, className = '', tone = 'mid' }) {
+  const grad = tone === 'dark'
+    ? 'linear-gradient(135deg, #0A100A 0%, #161E16 100%)'
+    : tone === 'light'
+    ? 'linear-gradient(135deg, #2C3A2D 0%, #1B281C 100%)'
+    : 'linear-gradient(135deg, #1A241A 0%, #0E140E 100%)';
+  const slotId = slotIdFromLabel(label);
+  const imgSrc = '/generated/v1/' + slotId + '.webp';
+  const [loaded, setLoaded] = React.useState(false);
+  return (
+    <div className={'relative overflow-hidden ' + className} style={{ background: grad }}>
+      <img
+        src={imgSrc}
+        alt=""
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+        style={{ opacity: loaded ? 1 : 0 }}
+      />
+      <div className="absolute inset-0 bg-noise opacity-[0.18] mix-blend-overlay pointer-events-none" />
+      {!loaded && (
+        <>
+          <div className="absolute inset-0 flex items-end justify-between p-4">
+            <span className="font-mono uppercase tracking-[0.16em] text-[9px] text-primary/55">{label}</span>
+            <span className="font-mono text-[9px] text-primary/35">▢</span>
+          </div>
+          <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+            <span className="font-mono text-[9px] text-primary/35">REC •</span>
+            <span className="font-mono text-[9px] text-primary/35">01:24</span>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+/* ---------- nav ---------- */
+function Nav() {
+  const links = [
+    { label: 'How it works', href: '#how' },
+    { label: 'The Ecosystem', href: '#ecosystem' },
+    { label: 'Pricing', href: '#pricing' },
+    { label: 'Reserve', href: '#reserve' },
+  ];
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
+      <nav className="pointer-events-auto bg-black rounded-b-2xl md:rounded-b-3xl px-4 py-2.5 md:px-8 md:py-3 flex items-center gap-3 sm:gap-6 md:gap-10 lg:gap-12">
+        <a href="#" className="text-[12px] sm:text-sm md:text-base font-medium text-primary tracking-tight pr-1 sm:pr-2 md:pr-4 border-r border-primary/15">ubique<span className="star-spin inline-block ml-1 text-[0.6em] align-top text-primary/70">✦</span></a>
+        {links.map((l) => (
+          <a key={l.label} href={l.href} className="nav-link text-[10px] sm:text-xs md:text-sm transition-colors whitespace-nowrap"
+            style={{ color: 'rgba(225, 224, 204, 0.78)' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#E1E0CC'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(225, 224, 204, 0.78)'}>
+            {l.label}
+          </a>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
+/* ---------- ticker ---------- */
+function Ticker() {
+  const items = [
+    'A wardrobe, thinking',
+    'The archivist session',
+    'Eight steps to a perfect morning',
+    'Styled by signal',
+    'No more decision fatigue',
+    'Reserve your spot',
+  ];
+  const row = (
+    <span className="ticker-track text-[10px] sm:text-xs uppercase tracking-[0.22em] text-primary/55">
+      {items.concat(items).map((t, i) => (
+        <span key={i} className="inline-flex items-center gap-3">
+          <span>{t}</span>
+          <span className="opacity-40">✦</span>
+        </span>
+      ))}
+    </span>
+  );
+  return (
+    <div className="overflow-hidden border-y border-primary/10 py-3 bg-deep">
+      {row}
+    </div>
+  );
+}
+
+/* ---------- hero ---------- */
+function Hero() {
+  const [in1, setIn1] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setIn1(true), 60); return () => clearTimeout(t); }, []);
+  return (
+    <section className="h-screen p-3 md:p-5" data-screen-label="01 Hero">
+      <div className="relative h-full w-full rounded-2xl md:rounded-[2rem] overflow-hidden vignette">
+        {/* Full-bleed hero image */}
+        <CinematicSlot label="IMG-HERO · Wardrobe interior, golden hour" className="absolute inset-0 rounded-2xl md:rounded-[2rem]" tone="light" />
+        {/* darkening gradient over image */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/85 pointer-events-none" />
+        <div className="absolute inset-0 noise-overlay opacity-[0.45] mix-blend-overlay pointer-events-none" />
+
+        {/* content */}
+        <div className="absolute inset-x-0 top-0 bottom-0 z-10 px-5 md:px-10 pt-24 md:pt-28 pb-6 md:pb-10 flex flex-col justify-between">
+          <div className="flex-1 flex items-end">
+            <div className="grid grid-cols-12 gap-4 md:gap-10 items-end w-full">
+              <div className="col-span-12 lg:col-span-9 relative">
+                <FadeUp delay={0.05}>
+                  <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.22em] text-primary/80">
+                    <span className="block w-1.5 h-1.5 rounded-full bg-primary/80" />
+                    Our proposition
+                  </span>
+                </FadeUp>
+                <WordsPullUp
+                  as="h1"
+                  text="We make your wardrobe think for itself."
+                  className="mt-6 md:mt-8 relative font-normal display-mid text-[11vw] sm:text-[10vw] md:text-[9vw] lg:text-[8.2vw] xl:text-[7.6vw] max-w-[16ch]"
+                  stagger={0.07}
+                  baseDelay={0.18}
+                />
+              </div>
+              <div className="col-span-12 lg:col-span-3 lg:pl-6 pb-2 lg:pb-4">
+                <div className="fade-up" style={{ transitionDelay: '0.55s' }} ref={(el) => { if (el && in1) el.classList.add('is-in'); }}>
+                  <p className="text-primary/85 text-sm md:text-base leading-[1.5] max-w-sm">
+                    Ubique knows your body, your closet, and your life. Every morning, the right outfit is already waiting, and the only pieces you buy are pieces worth keeping.
+                  </p>
+                </div>
+                <div className="fade-up mt-7" style={{ transitionDelay: '0.75s' }} ref={(el) => { if (el && in1) el.classList.add('is-in'); }}>
+                  <a href="#reserve" className="group inline-flex items-center gap-2 hover:gap-3 transition-all bg-primary rounded-full pl-5 pr-1.5 py-1.5 text-deep whitespace-nowrap">
+                    <span className="font-medium text-sm sm:text-base whitespace-nowrap">Reserve your spot</span>
+                    <span className="bg-black rounded-full w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                      <ArrowRight className="text-primary" />
+                    </span>
+                  </a>
+                  <div className="mt-4 flex items-center gap-3">
+                    <span className="block w-6 h-px bg-primary/30" />
+                    <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary/65 whitespace-nowrap">No payment today</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-end justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-primary/65 mt-6">
+            <span>Index · 01 / 06</span>
+            <span className="hidden md:inline">Scroll to begin</span>
+            <span>Limited intake</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- about ---------- */
+function About() {
+  return (
+    <section className="bg-black py-24 md:py-40 px-4 md:px-8" data-screen-label="02 About">
+      <div className="max-w-6xl mx-auto bg-panel rounded-2xl md:rounded-[2rem] px-6 md:px-16 py-20 md:py-32 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-noise opacity-[0.05] pointer-events-none" />
+
+        <FadeUp>
+          <div className="flex items-center justify-center gap-2 mb-10 md:mb-14">
+            <span className="block w-1 h-1 rounded-full bg-primary/70" />
+            <span className="eyebrow text-primary/80">Visual intelligence</span>
+            <span className="block w-1 h-1 rounded-full bg-primary/70" />
+          </div>
+        </FadeUp>
+
+        <WordsPullUpMultiStyle
+          segments={[
+            { text: "We are Ubique,", className: "font-normal" },
+            { text: "a wardrobe", className: "font-normal" },
+            { text: "that learns you.", className: "font-serif italic" },
+            { text: "Built around the way you live, the way you move,", className: "font-normal" },
+            { text: "and the quiet rules", className: "font-normal" },
+            { text: "of how you actually want to dress.", className: "font-serif italic" },
+          ]}
+          className="justify-center max-w-4xl mx-auto text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-primary leading-[0.95] sm:leading-[0.9]"
+        />
+
+        <div className="mt-14 md:mt-16 max-w-3xl mx-auto">
+          <FadeUp delay={0.2}>
+            <CinematicSlot label="IMG-ABOUT · Stylist hands working at a wardrobe" className="rounded-xl aspect-[16/9] w-full" tone="light" />
+          </FadeUp>
+        </div>
+
+        <div className="mt-12 md:mt-16 max-w-2xl mx-auto">
+          <ScrollLetterReveal
+            text={"Over the last year, we have built a system that scans your closet, learns your taste, and styles you every morning. We work with stylists, photographers, and a small group of early members who shape every decision we make."}
+            className="text-[#DEDBC8] text-sm sm:text-base md:text-lg leading-[1.55]"
+          />
+        </div>
+
+        <div className="mt-16 md:mt-20 grid grid-cols-3 max-w-2xl mx-auto gap-4 md:gap-8">
+          {[
+            ['90', 'minute archivist session'],
+            ['08', 'steps to your perfect morning'],
+            ['01', 'wardrobe, completely understood'],
+          ].map(([n, l], i) => (
+            <FadeUp key={i} delay={i * 0.12} className="text-left">
+              <div className="step-num text-4xl md:text-5xl font-light text-primary leading-none" style={{ letterSpacing: '-0.03em' }}>{n}</div>
+              <div className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-primary/55 leading-snug max-w-[14ch]">{l}</div>
+            </FadeUp>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- features (three pillars + visual card) ---------- */
+const PILLARS = [
+  {
+    n: '01',
+    Icon: IconShirt,
+    title: 'Your closet,',
+    titleItalic: 'archived.',
+    body: 'Every piece you own, photographed, tagged, and categorised. Your closet, fully organised and living in your phone.',
+    items: ['Photographed in full daylight', 'Categorised by tone and occasion', 'Searchable in three taps', 'Synced across every device you use'],
+  },
+  {
+    n: '02',
+    Icon: IconSparkles,
+    title: 'We learn',
+    titleItalic: 'how you dress.',
+    body: 'Body, style, lifestyle, budget. The system sharpens with every outfit you wear and every choice you make.',
+    items: ['Body and fit profile', 'Style notes from every wear', 'Lifestyle and calendar aware'],
+  },
+  {
+    n: '03',
+    Icon: IconSunrise,
+    title: 'Daily styling,',
+    titleItalic: 'smart shopping.',
+    body: 'Wake up to an outfit that works. Get recommendations only on what suits you, only when you need them.',
+    items: ['Outfit of the morning, ready before you wake', 'A shortlist of pieces worth buying', 'A stylist on call (Plan B)'],
+  },
+];
+
+function Features() {
+  return (
+    <section id="how" className="min-h-screen bg-black feature-bg relative py-24 md:py-32 px-4 md:px-8" data-screen-label="03 Features">
+      <div className="absolute inset-0 bg-noise opacity-[0.15] pointer-events-none" />
+      <div className="relative max-w-7xl mx-auto">
+
+        <div className="mb-16 md:mb-24 max-w-5xl">
+          <FadeUp>
+            <span className="eyebrow">The three pillars</span>
+          </FadeUp>
+          <WordsPullUpMultiStyle
+            segments={[
+              { text: "Studio-grade wardrobe intelligence", className: "text-primary" },
+              { text: "for people who don't have time to think about clothes.", className: "text-primary font-serif italic" },
+              { text: "Built for the way you actually live.", className: "text-sage" },
+              { text: "Powered by signal, not noise.", className: "text-sage font-serif italic" },
+            ]}
+            className="mt-5 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal leading-[1.15]"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3 lg:gap-2 lg:h-[520px]">
+          {/* Card 1: Visual */}
+          <FeatureVisual />
+
+          {/* Card 2-4: pillars */}
+          {PILLARS.map((p, i) => (
+            <FeatureCard key={p.n} {...p} idx={i + 1} />
+          ))}
+        </div>
+
+        {/* Sub row */}
+        <div className="mt-20 md:mt-28 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 border-t border-primary/10 pt-12">
+          {[
+            ['No payment today', 'You reserve a spot. We reach out when your slot opens up.'],
+            ['No subscription churn', 'One yearly fee. Two plans. No upsells, no add-ons, no friction.'],
+            ['No more decision fatigue', 'Wake up. Get dressed. Walk out the door. That is the whole pitch.'],
+          ].map(([t, b], i) => (
+            <FadeUp key={i} delay={i * 0.1}>
+              <div className="flex items-start gap-3">
+                <span className="mt-2 block w-1 h-1 rounded-full bg-primary/60" />
+                <div>
+                  <h4 className="text-primary text-base font-medium">{t}</h4>
+                  <p className="mt-2 text-sm text-moss leading-[1.55] max-w-xs">{b}</p>
+                </div>
+              </div>
+            </FadeUp>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeatureVisual() {
+  const [ref, inView] = useInView({ margin: '-100px' });
+  return (
+    <div ref={ref} className={'scale-in rounded-2xl overflow-hidden relative aspect-[4/5] md:aspect-auto md:min-h-[480px] ' + (inView ? 'is-in' : '')} style={{ transitionDelay: '0s' }}>
+      <CinematicSlot label="IMG-CANVAS · Closet, scanned in studio light" className="absolute inset-0" tone="light" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/70 pointer-events-none" />
+      <div className="absolute bottom-5 left-5 right-5 z-10">
+        <div className="font-serif italic text-2xl sm:text-3xl text-primary leading-tight" style={{ color: '#E1E0CC' }}>
+          Your creative canvas.
+        </div>
+        <p className="mt-2 text-xs text-primary/60 max-w-[18rem]">Every garment you own, captured in studio light, organised into a system that thinks alongside you.</p>
+      </div>
+      <div className="absolute top-5 left-5 right-5 flex items-center justify-between z-10">
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary/65">live · session</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary/65">00 · 01</span>
+      </div>
+    </div>
+  );
+}
+
+function FeatureCard({ n, Icon, title, titleItalic, body, items, idx }) {
+  const [ref, inView] = useInView({ margin: '-100px' });
+  return (
+    <div
+      ref={ref}
+      className={'scale-in lift relative rounded-2xl bg-card border border-primary/8 p-5 md:p-6 flex flex-col aspect-[4/5] md:aspect-auto md:min-h-[480px] ' + (inView ? 'is-in' : '')}
+      style={{ transitionDelay: (0.15 + idx * 0.15) + 's', borderColor: 'rgba(205, 217, 192, 0.10)' }}
+    >
+      {/* icon */}
+      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-primary/20 flex items-center justify-center mb-6 text-primary bg-primary/[0.03]">
+        {Icon ? <Icon /> : null}
+      </div>
+
+      <div className="flex items-baseline justify-between">
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary/55">{n}</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary/35">pillar</span>
+      </div>
+
+      <h3 className="mt-3 text-2xl sm:text-[26px] font-normal text-primary leading-[1.05]" style={{ letterSpacing: '-0.025em' }}>
+        {title}{' '}
+        <span className="font-serif italic" style={{ color: '#E1E0CC' }}>{titleItalic}</span>
+      </h3>
+
+      <p className="mt-3 text-xs sm:text-sm text-moss leading-[1.55]">{body}</p>
+
+      <ul className="mt-5 space-y-2.5 flex-1">
+        {items.map((it) => (
+          <li key={it} className="flex items-start gap-2.5">
+            <span className="mt-[3px] text-primary"><Check size={13} strokeWidth={2.4} /></span>
+            <span className="text-[12px] sm:text-[13px] text-primary/85 leading-[1.5]">{it}</span>
+          </li>
+        ))}
+      </ul>
+
+      <a href="#" className="group mt-5 inline-flex items-center gap-2 text-primary/75 hover:text-primary text-xs">
+        <span className="uppercase tracking-[0.18em]">Learn more</span>
+        <span className="inline-block transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" style={{ transform: 'rotate(-45deg)' }}>
+          <ArrowRight size={14} strokeWidth={1.8} />
+        </span>
+      </a>
+    </div>
+  );
+}
+
+/* ---------- ecosystem (the 8 steps) ---------- */
+const ECOSYSTEM = [
+  ['01', 'Your closet today',         'A wardrobe full of clothes, none of which you reach for.'],
+  ['02', 'You find us',                'Through Instagram, a friend, or a search for "I have too many clothes."'],
+  ['03', 'The Archivist Session',      'A 90-minute home visit. Every piece scanned, every detail noted.'],
+  ['04', 'Your wardrobe, a system',    'Tagged, categorised, searchable. Living in your phone.'],
+  ['05', 'We understand you, entirely','Body, style preferences, occasions, taste, budget.'],
+  ['06', 'We train you to use it',     'A guided walkthrough of your personal Ubique.'],
+  ['07', 'Personalised shopping',      'Recommendations only on what works for you.'],
+  ['08', 'Your perfect morning',       'Every day, the right outfit is already waiting for you.'],
+];
+
+function EcoRow({ n, title, body, idx }) {
+  const [ref, inView] = useInView({ margin: '-60px' });
+  return (
+    <div ref={ref} className={'fade-up group grid grid-cols-12 gap-4 md:gap-8 items-center py-7 md:py-10 border-t border-primary/10 hover:bg-primary/[0.015] transition-colors ' + (inView ? 'is-in' : '')} style={{ transitionDelay: (idx * 0.06) + 's' }}>
+      <div className="col-span-2 md:col-span-1 font-mono text-[10px] uppercase tracking-[0.2em] text-primary/55 self-start pt-1">{n}</div>
+      <div className="col-span-10 md:col-span-2">
+        <CinematicSlot label={'IMG-ECO-' + n} className="rounded-lg w-full aspect-[4/3]" tone={idx % 2 === 0 ? 'mid' : 'light'} />
+      </div>
+      <div className="col-span-12 md:col-span-4">
+        <h3 className="text-xl md:text-3xl text-primary font-normal leading-tight" style={{ letterSpacing: '-0.025em' }}>{title}.</h3>
+      </div>
+      <div className="col-span-12 md:col-span-4 text-sm md:text-base text-moss leading-[1.55] max-w-md">
+        {body}
+      </div>
+      <div className="hidden md:flex col-span-1 justify-end self-start pt-2">
+        <span className="text-primary/40 group-hover:text-primary/80 transition-colors"><Plus size={16} /></span>
+      </div>
+    </div>
+  );
+}
+
+function Ecosystem() {
+  return (
+    <section id="ecosystem" className="bg-black py-24 md:py-40 px-4 md:px-8" data-screen-label="04 Ecosystem">
+      <div className="max-w-7xl mx-auto">
+        <div className="max-w-5xl mb-16">
+          <FadeUp>
+            <span className="eyebrow">The ecosystem</span>
+          </FadeUp>
+          <WordsPullUpMultiStyle
+            segments={[
+              { text: "How you", className: "text-primary" },
+              { text: "actually", className: "text-primary font-serif italic" },
+              { text: "use it.", className: "text-primary" },
+            ]}
+            className="mt-5 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal display-mid"
+          />
+          <FadeUp delay={0.2}>
+            <p className="mt-6 font-serif italic text-primary/70 text-lg md:text-xl max-w-2xl">
+              From the first session to the daily ritual, eight steps.
+            </p>
+          </FadeUp>
+        </div>
+
+        <div className="border-b border-primary/10">
+          {ECOSYSTEM.map(([n, t, b], i) => (
+            <EcoRow key={n} n={n} title={t} body={b} idx={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- pricing ---------- */
+function Plan({ tier, name, price, sub, features, cta, premium, idx }) {
+  const [ref, inView] = useInView({ margin: '-80px' });
+  return (
+    <div ref={ref} className={'scale-in lift relative rounded-2xl md:rounded-[1.5rem] p-7 md:p-10 flex flex-col ' + (inView ? 'is-in' : '') + (premium ? ' bg-gradient-to-b from-[#1E2A1E] to-[#0F140F] border border-primary/25' : ' bg-card border border-primary/10')}
+         style={{ transitionDelay: (idx * 0.18) + 's' }}>
+      {premium && (
+        <div className="absolute top-5 right-5">
+          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-primary/85 px-2.5 py-1 rounded-full border border-primary/30">
+            <span className="star-spin">✦</span>
+            Stylist tier
+          </span>
+        </div>
+      )}
+      <div className="flex items-center gap-2">
+        <span className="block w-1.5 h-1.5 rounded-full bg-primary" />
+        <span className="eyebrow">{tier}</span>
+      </div>
+      <h3 className="mt-5 text-2xl md:text-3xl font-normal text-primary" style={{ letterSpacing: '-0.025em' }}>{name}</h3>
+
+      <div className="mt-7 flex items-baseline gap-2">
+        <span className="text-5xl md:text-6xl font-light text-primary" style={{ letterSpacing: '-0.04em' }}>{price}</span>
+        <span className="text-sm text-moss">per year</span>
+      </div>
+
+      <p className="mt-4 text-sm text-moss leading-[1.55] max-w-sm">{sub}</p>
+
+      <div className="mt-7 h-px bg-primary/10" />
+
+      <ul className="mt-7 space-y-3 flex-1">
+        {features.map((f) => (
+          <li key={f} className="flex items-start gap-3 text-sm text-primary/90">
+            <span className="mt-[3px] text-primary"><Check strokeWidth={2.4} /></span>
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+
+      <a href="#reserve" className={'group mt-9 inline-flex items-center justify-between gap-3 rounded-full pl-6 pr-1.5 py-1.5 text-sm font-medium transition-all ' + (premium ? 'bg-primary text-deep hover:gap-4' : 'border border-primary/35 text-primary hover:bg-primary hover:text-deep')}>
+        <span>{cta}</span>
+        <span className={'rounded-full w-9 h-9 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 ' + (premium ? 'bg-deep text-primary' : 'bg-primary/10 group-hover:bg-deep group-hover:text-primary')}>
+          <ArrowRight size={16} />
+        </span>
+      </a>
+    </div>
+  );
+}
+
+function Pricing() {
+  return (
+    <section id="pricing" className="bg-deep py-24 md:py-40 px-4 md:px-8" data-screen-label="05 Pricing">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-12 mb-16">
+          <div className="col-span-12 md:col-span-7">
+            <FadeUp><span className="eyebrow">Pricing plans</span></FadeUp>
+            <WordsPullUpMultiStyle
+              segments={[
+                { text: "Two plans.", className: "text-primary" },
+                { text: "Same wardrobe", className: "text-primary" },
+                { text: "magic.", className: "text-primary font-serif italic" },
+              ]}
+              className="mt-5 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal display-mid"
+            />
+          </div>
+          <FadeUp delay={0.2} className="col-span-12 md:col-span-4 md:col-start-9 mt-6 md:mt-0 self-end">
+            <p className="text-sm md:text-base text-moss leading-[1.55]">
+              No payment today. You reserve a spot. We onboard you when we open, and we walk you through everything in person.
+            </p>
+          </FadeUp>
+        </div>
+
+        <FadeUp delay={0.25} className="mb-12">
+          <CinematicSlot label="IMG-PRICING · Folded garments, neutral palette" className="rounded-xl aspect-[21/9] w-full" tone="light" />
+        </FadeUp>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <Plan idx={0}
+            tier="Plan A"
+            name="The Wardrobe Plan"
+            price="₹6,000"
+            sub="Your closet, organised. Daily styling. Smart shopping recommendations."
+            features={[
+              'Wardrobe digitisation and organisation',
+              'Daily styling from what you own',
+              'Smart shopping recommendations',
+              'Body and style profile',
+              'Chat with your stylist anytime',
+            ]}
+            cta="Reserve your spot"
+            premium={false}
+          />
+          <Plan idx={1}
+            tier="Plan B · Premium"
+            name="The Stylist Plan"
+            price="₹18,000"
+            sub="Everything in The Wardrobe Plan, plus a human stylist on call. Real conversations through chat, voice, or video."
+            features={[
+              'Everything in Plan A',
+              'Human stylist on call',
+              'Chat, voice, and video sessions',
+              'Quarterly wardrobe reviews',
+              'Concierge shopping support',
+            ]}
+            cta="Reserve your spot"
+            premium={true}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- reserve form ---------- */
+function Field({ label, id, type = 'text', placeholder, children }) {
+  return (
+    <label htmlFor={id} className="block">
+      <span className="eyebrow block mb-2.5">{label}</span>
+      {children ? children : (
+        <input id={id} type={type} placeholder={placeholder} className="field w-full h-12 rounded-lg px-4 text-sm" />
+      )}
+    </label>
+  );
+}
+
+function Reserve() {
+  const [submitted, setSubmitted] = useState(false);
+  return (
+    <section id="reserve" className="bg-black py-24 md:py-40 px-4 md:px-8" data-screen-label="06 Reserve">
+      <div className="max-w-6xl mx-auto bg-panel rounded-2xl md:rounded-[2rem] px-6 md:px-16 py-20 md:py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-noise opacity-[0.06] pointer-events-none" />
+        <div className="relative">
+          <div className="text-center max-w-3xl mx-auto">
+            <FadeUp delay={0.05} className="mb-10">
+              <CinematicSlot label="IMG-RESERVE · Hand sliding a hanger on a rail" className="rounded-xl aspect-[3/1] w-full max-w-xl mx-auto" tone="mid" />
+            </FadeUp>
+            <FadeUp><span className="eyebrow">Reserve your spot</span></FadeUp>
+            <WordsPullUpMultiStyle
+              segments={[
+                { text: "Be among", className: "text-primary" },
+                { text: "the first", className: "text-primary font-serif italic" },
+                { text: "to use Ubique.", className: "text-primary" },
+              ]}
+              className="mt-5 justify-center text-4xl sm:text-5xl md:text-6xl font-normal display-mid"
+            />
+            <FadeUp delay={0.25}>
+              <p className="mt-6 text-base text-moss leading-[1.55] max-w-xl mx-auto">
+                Limited intake. We will reach out when your slot opens up. No payment today, no commitment, no upsell.
+              </p>
+            </FadeUp>
+          </div>
+
+          <FadeUp delay={0.35}>
+            <form className="max-w-2xl mx-auto mt-14" onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                <Field label="Name" id="f-name" placeholder="Enter your name" />
+                <Field label="Phone" id="f-phone" type="tel" placeholder="Enter your phone" />
+                <Field label="Email" id="f-email" type="email" placeholder="Enter your email" />
+                <Field label="Pincode" id="f-pincode" placeholder="Enter your pincode" />
+              </div>
+
+              <div className="mt-5 md:mt-6">
+                <Field label="Which plan interests you? (Optional)" id="f-plan">
+                  <select id="f-plan" defaultValue="" className="field w-full h-12 rounded-lg px-4 text-sm">
+                    <option value="" disabled>Select a plan, not binding</option>
+                    <option value="a">Plan A · The Wardrobe Plan</option>
+                    <option value="b">Plan B · The Stylist Plan</option>
+                    <option value="unsure">Not sure yet</option>
+                  </select>
+                </Field>
+              </div>
+
+              <div className="mt-10 flex flex-wrap items-center gap-5">
+                <button type="submit" disabled={submitted}
+                  className="group inline-flex items-center gap-2 hover:gap-3 transition-all bg-primary rounded-full pl-6 pr-1.5 py-1.5 text-deep disabled:opacity-70">
+                  <span className="font-medium text-base">{submitted ? 'Spot reserved' : 'Reserve my spot'}</span>
+                  <span className="bg-black rounded-full w-10 h-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                    {submitted ? <Check size={16} strokeWidth={2.4} className="text-primary" /> : <ArrowRight size={16} className="text-primary" />}
+                  </span>
+                </button>
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary/55">Free · We will be in touch when your slot opens up</span>
+              </div>
+            </form>
+          </FadeUp>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- footer ---------- */
+function Footer() {
+  return (
+    <footer className="bg-black border-t border-primary/10">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 py-10 md:py-14 grid grid-cols-12 gap-6 items-end">
+        <div className="col-span-12 md:col-span-6">
+          <div className="font-medium text-[clamp(56px,9vw,128px)] text-primary leading-[0.85]" style={{ letterSpacing: '-0.06em' }}>
+            ubique<span className="star-spin inline-block ml-2 text-[0.35em] align-top">✦</span>
+          </div>
+          <p className="mt-4 max-w-md text-sm text-moss leading-[1.5]">A wardrobe that knows your body, your closet, and your life.</p>
+        </div>
+        <div className="col-span-6 md:col-span-3">
+          <span className="eyebrow">Contact</span>
+          <ul className="mt-4 space-y-2 text-sm text-primary/80">
+            <li>hello@ubique.studio</li>
+            <li>By appointment</li>
+          </ul>
+        </div>
+        <div className="col-span-6 md:col-span-3">
+          <span className="eyebrow">Follow</span>
+          <ul className="mt-4 space-y-2 text-sm text-primary/80">
+            <li>Instagram</li>
+            <li>Substack</li>
+            <li>The Field Notes</li>
+          </ul>
+        </div>
+        <div className="col-span-12 mt-8 pt-6 border-t border-primary/10 flex flex-wrap justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-primary/45">
+          <span>Limited intake · 2026</span>
+          <span>UBQ · V2 · Cinematic Edition</span>
+          <span>All rights, considered.</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ---------- app ---------- */
+function App() {
+  return (
+    <div className="min-h-screen bg-black text-primary">
+      <Nav />
+      <Hero />
+      <Ticker />
+      <About />
+      <Features />
+      <Ecosystem />
+      <Pricing />
+      <Reserve />
+      <Footer />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

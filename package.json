@@ -3,10 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run inject-keys && next dev",
+    "prebuild": "npm run inject-keys",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "inject-keys": "tsx scripts/inject-keys.ts",
+    "unpack-v2": "tsx scripts/unpack-v2-bundle.ts",
+    "generate-images": "tsx scripts/generate-images.ts",
+    "generate-images:v1": "tsx scripts/generate-images.ts --variant=v1",
+    "generate-images:v2": "tsx scripts/generate-images.ts --variant=v2",
+    "generate-images:force": "tsx scripts/generate-images.ts --force",
+    "verify-slots": "tsx scripts/slot-discovery.ts"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",
@@ -15,13 +24,18 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.32.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^16.4.5",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "openai": "^4.77.0",
+    "sharp": "^0.33.5",
     "tailwindcss": "^4",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }

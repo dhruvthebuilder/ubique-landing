@@ -1,21 +1,5 @@
-import Hero from "@/components/Hero";
-import Steps from "@/components/Steps";
-import Plans from "@/components/Plans";
-import PersonalShopping from "@/components/PersonalShopping";
-import Statement from "@/components/Statement";
-import BookingForm from "@/components/BookingForm";
-import Footer from "@/components/Footer";
-
-export default function Home() {
-  return (
-    <main>
-      <Hero />
-      <Steps />
-      <Plans />
-      <PersonalShopping />
-      <Statement />
-      <BookingForm />
-      <Footer />
-    </main>
-  );
+// Middleware rewrites / to /v1/index.html or /v2/index.html.
+// This stub only renders if the middleware is bypassed.
+export default function Page() {
+  return null;
 }

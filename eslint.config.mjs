@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Static prototype assets served as-is (babel-runtime JSX, not part of the Next build).
+    "public/**",
+    // Build/codegen scripts run via tsx, not part of the app bundle.
+    "scripts/**",
   ]),
 ]);
 

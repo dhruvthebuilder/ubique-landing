@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
       email: body.email ?? "",
       city: body.city ?? "",
       plan: body.plan ?? "",
+      variant: body.variant ?? "",
     });
 
     const res = await fetch(`${endpoint}?${params.toString()}`, {

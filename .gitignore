@@ -39,3 +39,26 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude / agent tooling artifacts
+.claude/
+.kiro/
+.agents/
+cm.curl
+skills-lock.json
+ubique-claude-code-brief.md
+photos/
+platform.openapi.yml
+
+# design sources (kept locally as reference, never shipped)
+/design-source/
+/Ubique Landing v1/
+/ubique-landing-page-v2/
+
+# image generation cache (regenerable)
+.image-cache.json
+
+# variant served HTMLs are built fresh from *.template.html on every npm run prebuild
+/public/v1/index.html
+/public/v2/index.html
+

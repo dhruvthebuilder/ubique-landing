@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #FFFFFF;
-  --ink: #0E0E0E;
-  --accent: #E8001C;
-  --muted: #6B6B6B;
-  --border: #E5E5E5;
+  --bg: #F3F0EB;
+  --ink: #0C0C0B;
+  --accent: #C41230;
+  --muted: #8A8782;
+  --border: #DDD8D1;
 }
 
 @theme inline {
@@ -15,6 +15,7 @@
   --color-muted: var(--muted);
   --color-border: var(--border);
   --font-sans: var(--font-space-grotesk);
+  --font-display: var(--font-cormorant);
 }
 
 * {
@@ -29,30 +30,28 @@ body {
   background-color: var(--bg);
   color: var(--ink);
   font-family: var(--font-space-grotesk), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Marquee animation */
 @keyframes marquee {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to   { transform: translateX(-50%); }
 }
 
 .marquee-track {
-  animation: marquee 30s linear infinite;
+  animation: marquee 44s linear infinite;
   display: flex;
   white-space: nowrap;
 }
 
-/* Clip-path text reveal */
 .text-reveal-line {
   overflow: hidden;
   display: block;
 }
 
-/* Number counting */
 @keyframes count-up {
   from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
