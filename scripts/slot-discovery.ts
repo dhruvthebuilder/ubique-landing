@@ -41,42 +41,42 @@ const V1_PROMPTS: Record<string, Omit<Slot, 'slot' | 'variant'>> = {
     alt: 'Birds-eye view of an open wardrobe rail with twelve garments graduated from light bone to deep moss green',
     basePrompt: "Birds-eye flat-lay of a single open wardrobe rail photographed in studio light. Twelve garments hung evenly spaced from light bone to deep moss green. Every garment slightly different in texture — silk, linen, wool, cotton. The floor below shows a thin tag and a measuring tape. Ultra clean composition. The wardrobe as a system. Archival catalogue energy. No people."
   },
-  'img-eco-1': {
+  'img-eco-01': {
     aspect: '4:3', size: '1536x1024',
     alt: 'An overstuffed closet, garments crammed on hangers, the feeling of decision fatigue',
     basePrompt: 'An overstuffed closet shot from the front, garments crammed on hangers in chaotic colours and textures, a sliver of warm bedside light spilling onto the floor. Slightly out of focus. Documentary realism. The feeling of decision fatigue. No people.'
   },
-  'img-eco-2': {
+  'img-eco-02': {
     aspect: '4:3', size: '1536x1024',
     alt: 'A hand holding a phone showing a soft sage-cream interface, window light',
     basePrompt: 'Detail shot of a hand holding a phone showing a soft sage-cream interface. The phone reflects light from a window with houseplants in the background. The screen is intentionally abstract — no readable UI. Shallow depth of field. Calm morning mood. No faces.'
   },
-  'img-eco-3': {
+  'img-eco-03': {
     aspect: '4:3', size: '1536x1024',
     alt: 'An archivist session in progress, a clothing rail next to a portable lightbox and tripod',
     basePrompt: 'A home visit in progress: an open clothing rail next to a small portable lightbox, a tripod, a tablet on a stool, early evening light falling through a window onto a wooden floor. No people. Documentary still-life of the kit at work.'
   },
-  'img-eco-4': {
+  'img-eco-04': {
     aspect: '4:3', size: '1536x1024',
     alt: 'A phone showing a grid of garment thumbnails on a sage-cream interface, on a linen tablecloth',
     basePrompt: 'Top-down view of a phone screen showing a grid of garment thumbnails on a sage-cream interface. The phone sits on a linen tablecloth next to a folded scarf and a small green ceramic mug. Soft natural daylight. Calm and orderly. No UI text legible.'
   },
-  'img-eco-5': {
+  'img-eco-05': {
     aspect: '4:3', size: '1536x1024',
     alt: 'A navy blazer on a hanger against a cream backdrop, a tape measure on the floor, a notebook with a pencil',
     basePrompt: 'A simple still-life: a navy blazer on a hanger against a cream paper backdrop, a tape measure curling on the floor, a notebook with a pencil resting on top. Side daylight. Editorial product-photography style. Quiet and analytical. No people.'
   },
-  'img-eco-6': {
+  'img-eco-06': {
     aspect: '4:3', size: '1536x1024',
     alt: 'Two pairs of hands across a wooden table, one holding a phone, the other gesturing toward it',
     basePrompt: 'Two pairs of hands across a wooden table, one holding a phone showing a soft interface, the other gesturing toward it. Warm afternoon light. A ceramic cup of tea slightly out of focus in the foreground. Intimate teaching moment. No faces.'
   },
-  'img-eco-7': {
+  'img-eco-07': {
     aspect: '4:3', size: '1536x1024',
     alt: 'Three pieces on a sage paper sheet: a linen shirt, folded wool trousers, a leather wallet',
     basePrompt: 'A flat-lay of three pieces on a sage paper sheet: a single linen shirt, a pair of folded wool trousers, and a leather wallet. Photographed top-down in soft daylight. A small handwritten note tucked into one corner. Curated and restrained. No logos.'
   },
-  'img-eco-8': {
+  'img-eco-08': {
     aspect: '4:3', size: '1536x1024',
     alt: 'An outfit laid out on a bed at sunrise: cream shirt, dark trousers, slim belt, watch',
     basePrompt: 'An outfit laid out on a made bed at sunrise: a cream shirt, dark trousers, a slim belt, and a watch. Gentle peach light from a window. No people. The feeling of waking up to a decision already made.'
@@ -205,7 +205,7 @@ export async function verifyAgainstHtml(): Promise<{ orphans: string[]; missing:
   const v1Ids = new Set<string>();
   for (const lbl of v1Labels) {
     if (/IMG-ECO-/.test(lbl) || /'IMG-ECO-'/.test(lbl)) {
-      for (let n = 1; n <= 8; n++) v1Ids.add('img-eco-' + n);
+      for (let n = 1; n <= 8; n++) v1Ids.add(('img-eco-0' + n));
     } else {
       v1Ids.add(lbl.split('·')[0].trim().toLowerCase().replace(/\s+/g, '-'));
     }
