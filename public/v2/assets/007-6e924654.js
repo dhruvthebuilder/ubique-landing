@@ -17,9 +17,14 @@ function HeroBackdrop() {
         <line x1="0" y1="0" x2="100" y2="100" stroke="#CFDDB5" strokeWidth="0.18" strokeDasharray="1 1.4" vectorEffect="non-scaling-stroke" />
         <line x1="100" y1="0" x2="0" y2="100" stroke="#CFDDB5" strokeWidth="0.18" strokeDasharray="1 1.4" vectorEffect="non-scaling-stroke" />
       </svg>
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 mono text-[10px] uppercase tracking-[0.22em] text-primary/45 z-[1]">
-        Hero · hero-background.jpg
-      </div>
+      <img
+        src="/generated/v2/hero-background.webp"
+        alt=""
+        loading="eager"
+        onError={(e) => { e.currentTarget.style.display = "none"; }}
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ zIndex: 0 }}
+      />
       <div className="absolute inset-0 ph-vid mix-blend-overlay opacity-60" />
       {/* slow orbiting glow */}
       <div

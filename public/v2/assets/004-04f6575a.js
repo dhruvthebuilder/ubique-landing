@@ -156,6 +156,9 @@ function Eyebrow({ children, className = "", color = "#CFDDB5" }) {
 
 function ImagePlaceholder({ label = "Image", aspect = "4/3", className = "", note = "", filename = "" }) {
   const alt = filename || label;
+  const slot = filename ? filename.replace(/\.(jpe?g|png|webp)$/i, "") : "";
+  const imgSrc = slot ? "/generated/v2/" + slot + ".webp" : "";
+  const [loaded, setLoaded] = React.useState(false);
   return (
     <div
       role="img"
@@ -164,21 +167,36 @@ function ImagePlaceholder({ label = "Image", aspect = "4/3", className = "", not
       className={`relative w-full overflow-hidden rounded-2xl border border-primary/15 bg-card-2 ${className}`}
       style={{ aspectRatio: aspect }}
     >
-      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(207,221,181,0.10), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(207,221,181,0.06), transparent 60%)" }} />
-      <svg className="absolute inset-0 w-full h-full opacity-30" preserveAspectRatio="none" viewBox="0 0 100 100">
-        <line x1="0" y1="0" x2="100" y2="100" stroke="#CFDDB5" strokeWidth="0.25" strokeDasharray="1 1" vectorEffect="non-scaling-stroke" />
-        <line x1="100" y1="0" x2="0" y2="100" stroke="#CFDDB5" strokeWidth="0.25" strokeDasharray="1 1" vectorEffect="non-scaling-stroke" />
-      </svg>
-      <div className="absolute top-3 left-3 mono text-[10px] tracking-[0.22em] uppercase text-primary/55">{label}</div>
-      {filename ? (
-        <div className="absolute top-3 right-3 mono text-[9px] tracking-[0.18em] text-primary/40 max-w-[60%] truncate text-right">{filename}</div>
+      {imgSrc ? (
+        <img
+          src={imgSrc}
+          alt=""
+          loading="lazy"
+          onLoad={() => setLoaded(true)}
+          onError={(e) => { e.currentTarget.style.display = "none"; }}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+          style={{ opacity: loaded ? 1 : 0 }}
+        />
       ) : null}
-      <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
-        <div className="text-xs text-primary/45 italic font-italic-serif">{note || "Placeholder, image to come."}</div>
-        <div className="shrink-0 w-7 h-7 rounded-full border border-primary/25 inline-flex items-center justify-center text-primary/55">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="5" width="18" height="14" rx="1" /><circle cx="9" cy="11" r="1.5" /><path d="M21 17l-5-5-9 7" /></svg>
-        </div>
-      </div>
+      <div className="absolute inset-0 pointer-events-none" style={{ opacity: loaded ? 0 : 1, transition: "opacity .5s", background: "radial-gradient(ellipse at 30% 30%, rgba(207,221,181,0.10), transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(207,221,181,0.06), transparent 60%)" }} />
+      {!loaded && (
+        <>
+          <svg className="absolute inset-0 w-full h-full opacity-30 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100">
+            <line x1="0" y1="0" x2="100" y2="100" stroke="#CFDDB5" strokeWidth="0.25" strokeDasharray="1 1" vectorEffect="non-scaling-stroke" />
+            <line x1="100" y1="0" x2="0" y2="100" stroke="#CFDDB5" strokeWidth="0.25" strokeDasharray="1 1" vectorEffect="non-scaling-stroke" />
+          </svg>
+          <div className="absolute top-3 left-3 mono text-[10px] tracking-[0.22em] uppercase text-primary/55">{label}</div>
+          {filename ? (
+            <div className="absolute top-3 right-3 mono text-[9px] tracking-[0.18em] text-primary/40 max-w-[60%] truncate text-right">{filename}</div>
+          ) : null}
+          <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
+            <div className="text-xs text-primary/45 italic font-italic-serif">{note || "Placeholder, image to come."}</div>
+            <div className="shrink-0 w-7 h-7 rounded-full border border-primary/25 inline-flex items-center justify-center text-primary/55">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="5" width="18" height="14" rx="1" /><circle cx="9" cy="11" r="1.5" /><path d="M21 17l-5-5-9 7" /></svg>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

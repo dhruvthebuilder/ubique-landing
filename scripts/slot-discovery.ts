@@ -93,65 +93,70 @@ const V1_PROMPTS: Record<string, Omit<Slot, 'slot' | 'variant'>> = {
   }
 };
 
-// v2 prompts mirror the brief's stylist-led manifest. Slot IDs match
-// data-img-slot attributes injected into the unpacked v2 prototype.
+// v2 prompts mirror the brief's stylist-led manifest. Slot IDs match the
+// `filename` props (sans .jpg) used by v2's ImagePlaceholder + hero label.
 const V2_PROMPTS: Record<string, Omit<Slot, 'slot' | 'variant'>> = {
-  'hero-bg': {
+  'hero-background': {
     aspect: '16:9', size: '1536x1024',
     alt: 'A young woman in profile near a tall window in a quiet Mumbai apartment, half-lit by warm afternoon light',
     basePrompt: "A young Indian woman in her late 20s standing in profile near a tall window in a quiet Mumbai apartment, half-lit by warm late-afternoon light. She wears a relaxed cream linen shirt and tailored olive trousers, one hand loosely tucked into her pocket. Behind her, an open wooden wardrobe is barely visible in deep shadow. Sheer curtains diffuse the light, casting long soft beams across the floor. The moment just before getting dressed for the day. Shallow depth of field."
   },
-  'pillar-01': {
+  'pillars-lookbook-editorial': {
+    aspect: '21:9', size: '1536x1024',
+    alt: 'Wide editorial — stylist seated beside a client mid-conversation in a soft Mumbai daylight studio',
+    basePrompt: "A wide cinematic editorial: an Indian stylist in her 30s seated on a low cream sofa beside a client, both leaning slightly forward in mid-conversation. A folded sari and a small notebook rest on a low brass coffee table between them. The space is a tall, calm Mumbai apartment with a softly diffused window behind, cream linen drapes, terracotta floor. Both faces are softly lit, half-shadowed, both turned partially away from camera. Negative space wide left and right. Banner-like composition."
+  },
+  'pillar-01-wardrobe': {
     aspect: '4:3', size: '1536x1024',
     alt: 'Overhead flat-lay of a meticulously organised wardrobe with 12 garments folded and spaced on warm oak',
     basePrompt: 'Overhead flat-lay of a meticulously organised wardrobe: 12 garments folded and spaced on warm oak, two pairs of shoes, a single brass hanger, a phone resting beside them showing a faint grid UI (blurred, no text). Top-down shot. Soft directional light from the right. Cream linen backdrop. Archival, calm.'
   },
-  'pillar-02': {
+  'pillar-02-portrait': {
     aspect: '4:3', size: '1536x1024',
     alt: 'Close-up of an Indian stylist writing in a leather notebook',
     basePrompt: 'Close-up portrait of an Indian stylist (30s, short hair, oversized cream shirt) writing in a leather notebook. Soft focus on her hands and the page. A garment rack blurred in the background. Warm tungsten light. Half-shadow on her face. Documentary fashion editorial.'
   },
-  'pillar-03': {
+  'pillar-03-outfit': {
     aspect: '4:3', size: '1536x1024',
     alt: 'A hand holding a phone in landscape against a soft sage-green linen background, abstract UI',
     basePrompt: 'A hand holding a phone in landscape orientation against a soft sage-green linen background. The phone screen is intentionally indistinct — abstract shapes suggesting outfit cards in cream, black and olive tones. Cinematic shallow depth of field. Single warm key light. No legible UI, no text.'
   },
-  'eco-step-01': {
+  'step-01': {
     aspect: '4:3', size: '1536x1024',
     alt: 'Open wardrobe overstuffed with clothes, a sense of decision fatigue',
     basePrompt: 'Open wardrobe shot from inside the room: clothes overstuffed onto hangers, a slumped pile on the floor, one shoe lying sideways. Cold morning light, slightly desaturated. A quiet sense of overwhelm.'
   },
-  'eco-step-02': {
+  'step-02': {
     aspect: '4:3', size: '1536x1024',
     alt: "A young Indian woman's hands holding a phone, brass earring catching highlight",
     basePrompt: "Close crop of a young Indian woman's hands holding a phone (screen blurred, no UI). Saved Instagram posts implied as a soft mood-board glow on her face. Warm dusk window light. Brass earring catching highlight."
   },
-  'eco-step-03': {
+  'step-03': {
     aspect: '4:3', size: '1536x1024',
     alt: 'A stylist crouched beside a wooden wardrobe, lifting a folded sari while a phone on a tripod photographs it',
     basePrompt: 'A stylist (mid-30s, cream linen shirt) crouched beside a wooden wardrobe, gently lifting a folded sari while a phone on a small tripod photographs it. Soft daylight. Terracotta floor. Intimate documentary tone.'
   },
-  'eco-step-04': {
+  'step-04': {
     aspect: '4:3', size: '1536x1024',
     alt: 'Overhead flat-lay of twelve garments precisely spaced on warm oak, color-graded from cream to olive to charcoal',
     basePrompt: 'Overhead flat-lay: twelve garments precisely spaced on warm oak, color-graded from cream to olive to charcoal. Two folded shirts, one belt, one pair of loafers. Archival, calm.'
   },
-  'eco-step-05': {
+  'step-05': {
     aspect: '4:3', size: '1536x1024',
     alt: 'Three blurred portrait silhouettes hanging like polaroids on a single string against a sage wall',
     basePrompt: "Three blurred portrait silhouettes hanging like polaroids on a single string against a sage wall — one in focus (a stylist's face half-visible), the others soft. Warm gallery light."
   },
-  'eco-step-06': {
+  'step-06': {
     aspect: '4:3', size: '1536x1024',
     alt: 'A stylist and client on a low cream sofa, mid-conversation, a notebook and folded shirt between them',
     basePrompt: 'A stylist and client sitting opposite each other on a low cream sofa, mid-conversation. A notebook and a folded shirt on the coffee table between them. Window light from the side. Both faces half-shadowed. Quiet, considered.'
   },
-  'eco-step-07': {
+  'step-07': {
     aspect: '4:3', size: '1536x1024',
     alt: 'A woman from behind, slipping on a sage linen shirt in front of a mirror in morning light',
     basePrompt: 'A woman from behind, slipping on a sage linen shirt in front of a mirror in soft morning light. Bed in the background. A folded outfit waiting on it. Calm, ritualistic.'
   },
-  'eco-step-08': {
+  'step-08': {
     aspect: '4:3', size: '1536x1024',
     alt: 'A hand reaching toward an olive cotton blazer hanging on a wooden hook against a cream wall',
     basePrompt: 'A hand reaching toward a single garment hanging on a wooden hook against a cream wall — an olive cotton blazer, perfectly pressed. Single hard window light casting a long shadow. Editorial, intentional.'
