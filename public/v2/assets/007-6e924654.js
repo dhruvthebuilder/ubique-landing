@@ -194,10 +194,6 @@ function PillarsSection() {
           </div>
         </div>
 
-        <FadeUp delay={0.1} className="mb-12 md:mb-16">
-          <ImagePlaceholder label="Lookbook · Editorial 01" aspect="21/9" filename="pillars-lookbook-editorial.jpg" note="Wide editorial hero — stylist + client moment." />
-        </FadeUp>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-2 md:gap-1">
           {PILLARS.map((p, i) => (
             <FadeUp key={p.n} delay={i * 0.1}>
