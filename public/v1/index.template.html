@@ -489,8 +489,9 @@ function Hero() {
       <div className="relative h-full w-full rounded-2xl md:rounded-[2rem] overflow-hidden vignette">
         {/* Full-bleed hero image */}
         <CinematicSlot label="IMG-HERO · Wardrobe interior, golden hour" className="absolute inset-0 rounded-2xl md:rounded-[2rem]" tone="light" />
-        {/* darkening gradient over image — eased so the photo reads */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/65 pointer-events-none" />
+        {/* gradient stack: vertical darken top+bottom so headline+nav read, plus a left-bottom wedge to seat the H1 against */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/15 to-black/75 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-black/55 via-black/10 to-transparent pointer-events-none" />
         <div className="absolute inset-0 noise-overlay opacity-[0.22] mix-blend-overlay pointer-events-none" />
 
         {/* content */}

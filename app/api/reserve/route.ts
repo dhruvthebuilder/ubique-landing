@@ -27,13 +27,33 @@ export async function POST(req: NextRequest) {
       redirect: "follow",
     });
 
+    const text = await res.text();
+    const preview = text.slice(0, 400).replace(/\s+/g, " ");
+
     if (!res.ok) {
-      throw new Error(`Upstream error: ${res.status}`);
+      console.error(`[reserve] GAS upstream ${res.status} variant=${body.variant ?? "?"}: ${preview}`);
+      return NextResponse.json({ ok: false, upstream: res.status }, { status: 502 });
     }
 
+    // GAS web apps always return 200, even on error — they wrap errors in JSON
+    // { ok: false, error: ... } or return an HTML error page on permission/script issues.
+    let gasOk = true;
+    try {
+      const parsed = JSON.parse(text);
+      gasOk = parsed?.ok !== false;
+      if (!gasOk) console.error(`[reserve] GAS reported failure variant=${body.variant ?? "?"}: ${preview}`);
+    } catch {
+      // Non-JSON response = GAS HTML error page (auth, undeployed, etc.)
+      console.error(`[reserve] GAS returned non-JSON variant=${body.variant ?? "?"}: ${preview}`);
+      gasOk = false;
+    }
+
+    if (!gasOk) return NextResponse.json({ ok: false, gas: preview }, { status: 502 });
+
+    console.log(`[reserve] ok variant=${body.variant ?? "?"} plan=${body.plan ?? "?"}`);
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("Form submission error:", err);
+    console.error("[reserve] fatal:", err);
     return NextResponse.json({ ok: false }, { status: 500 });
   }
 }
