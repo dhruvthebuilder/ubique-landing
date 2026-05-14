@@ -16,8 +16,10 @@
       defaults: '2026-01-30',
       person_profiles: 'identified_only'
     });
-    posthog.register({ variant: window.__UBIQUE_VARIANT__ });
-    posthog.capture('variant_assigned', { variant: window.__UBIQUE_VARIANT__ });
+    var VARIANT_NAMES = { v1: 'Wardrobe Intelligence', v2: 'Stylist-led' };
+    var v = window.__UBIQUE_VARIANT__;
+    posthog.register({ variant: v, variant_name: VARIANT_NAMES[v] || v });
+    posthog.capture('variant_assigned', { variant: v, variant_name: VARIANT_NAMES[v] || v });
   }
 </script>
 

@@ -353,6 +353,34 @@ function ReserveForm() {
       setSending(false);
     }
   }
+  if (submitted) {
+    return (
+      <div className="md:col-span-2 ubq-success-card mx-auto max-w-2xl w-full text-center px-6 py-14 md:py-20 rounded-3xl border border-primary/15 bg-[rgba(207,221,181,0.04)]">
+        <div className="ubq-success-ring mx-auto w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/15 ring-1 ring-primary/30 flex items-center justify-center mb-7">
+          <svg viewBox="0 0 32 32" width="38" height="38" fill="none" stroke="#CFDDB5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path className="ubq-success-check" d="M7 16.5 L13.5 23 L25 10" />
+          </svg>
+        </div>
+        <h3 className="ubq-success-lift-1 text-2xl md:text-3xl text-primary leading-tight" style={{ fontFamily: "serif", fontStyle: "italic" }}>Reservation received.</h3>
+        <p className="ubq-success-lift-2 mt-4 text-base text-primary/65 max-w-md mx-auto leading-relaxed">
+          We will be in touch within 48 hours from the morning your slot opens.
+        </p>
+        <p className="ubq-success-lift-3 mt-8 text-[10px] uppercase tracking-[0.22em] text-primary/45" style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>Limited intake · Mumbai first</p>
+        <style>{`
+          @keyframes ubq-success-pop { 0% { opacity: 0; transform: scale(0.94) translateY(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+          @keyframes ubq-draw-check { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
+          @keyframes ubq-ring-grow { 0% { transform: scale(0.5); opacity: 0; } 60% { opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+          @keyframes ubq-lift-text { 0% { opacity: 0; transform: translateY(12px); } 100% { opacity: 1; transform: translateY(0); } }
+          .ubq-success-card { animation: ubq-success-pop 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+          .ubq-success-ring { animation: ubq-ring-grow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+          .ubq-success-check { stroke-dasharray: 80; stroke-dashoffset: 80; animation: ubq-draw-check 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.45s forwards; }
+          .ubq-success-lift-1 { animation: ubq-lift-text 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both; }
+          .ubq-success-lift-2 { animation: ubq-lift-text 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.75s both; }
+          .ubq-success-lift-3 { animation: ubq-lift-text 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.95s both; }
+        `}</style>
+      </div>
+    );
+  }
   return (
     <form onSubmit={submit} onFocus={onFirstFocus} className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
       <div>
@@ -381,8 +409,8 @@ function ReserveForm() {
         </select>
       </div>
       <div className="md:col-span-2 flex items-center gap-6 flex-wrap pt-4">
-        <button type="submit" disabled={submitted || sending} className="group inline-flex items-center gap-2 hover:gap-3 transition-all duration-300 pl-6 pr-1.5 py-1.5 rounded-full bg-primary text-black text-sm sm:text-base font-medium disabled:opacity-70">
-          <span>{submitted ? "We will be in touch" : sending ? "Sending…" : "Reserve my spot"}</span>
+        <button type="submit" disabled={sending} className="group inline-flex items-center gap-2 hover:gap-3 transition-all duration-300 pl-6 pr-1.5 py-1.5 rounded-full bg-primary text-black text-sm sm:text-base font-medium disabled:opacity-70">
+          <span>{sending ? "Sending…" : "Reserve my spot"}</span>
           <span className="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-black text-primary group-hover:scale-110 transition-transform">
             <IconArrowRight size={14} />
           </span>

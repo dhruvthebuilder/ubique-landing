@@ -92,6 +92,18 @@
   .scale-in { opacity: 0; transform: scale(0.96); transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
   .scale-in.is-in { opacity: 1; transform: scale(1); }
 
+  /* success confirmation */
+  @keyframes success-pop { 0% { opacity: 0; transform: scale(0.92) translateY(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+  @keyframes draw-check { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
+  @keyframes ring-grow { 0% { transform: scale(0.5); opacity: 0; } 60% { opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes lift-text { 0% { opacity: 0; transform: translateY(12px); } 100% { opacity: 1; transform: translateY(0); } }
+  .success-card { animation: success-pop 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .success-ring { animation: ring-grow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+  .success-check { stroke-dasharray: 80; stroke-dashoffset: 80; animation: draw-check 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.45s forwards; }
+  .success-lift-1 { animation: lift-text 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both; }
+  .success-lift-2 { animation: lift-text 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.75s both; }
+  .success-lift-3 { animation: lift-text 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.95s both; }
+
   .eyebrow {
     text-transform: uppercase;
     letter-spacing: 0.18em;
@@ -208,8 +220,10 @@
       defaults: '2026-01-30',
       person_profiles: 'identified_only'
     });
-    posthog.register({ variant: window.__UBIQUE_VARIANT__ });
-    posthog.capture('variant_assigned', { variant: window.__UBIQUE_VARIANT__ });
+    var VARIANT_NAMES = { v1: 'Wardrobe Intelligence', v2: 'Stylist-led' };
+    var v = window.__UBIQUE_VARIANT__;
+    posthog.register({ variant: v, variant_name: VARIANT_NAMES[v] || v });
+    posthog.capture('variant_assigned', { variant: v, variant_name: VARIANT_NAMES[v] || v });
   }
 </script>
 
@@ -1018,37 +1032,52 @@ function Reserve() {
           </div>
 
           <FadeUp delay={0.35}>
-            <form className="max-w-2xl mx-auto mt-14" onSubmit={submit} onFocus={onFirstFocus}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-                <Field label="Name" id="f-name" placeholder="Enter your name" />
-                <Field label="Phone" id="f-phone" type="tel" placeholder="Enter your phone" />
-                <Field label="Email" id="f-email" type="email" placeholder="Enter your email" />
-                <Field label="Pincode" id="f-pincode" placeholder="Enter your pincode" />
+            {submitted ? (
+              <div className="success-card max-w-2xl mx-auto mt-14 text-center px-6 py-14 md:py-20 rounded-2xl bg-card border border-primary/10">
+                <div className="success-ring mx-auto w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/15 ring-1 ring-primary/30 flex items-center justify-center mb-7">
+                  <svg viewBox="0 0 32 32" width="38" height="38" fill="none" stroke="#CDD9C0" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path className="success-check" d="M7 16.5 L13.5 23 L25 10" />
+                  </svg>
+                </div>
+                <h3 className="success-lift-1 text-2xl md:text-3xl text-primary font-serif italic leading-tight">Reservation received.</h3>
+                <p className="success-lift-2 mt-4 text-base text-moss max-w-md mx-auto leading-relaxed">
+                  We will be in touch within 48 hours from the morning your slot opens.
+                </p>
+                <p className="success-lift-3 mt-8 font-mono text-[10px] uppercase tracking-[0.22em] text-primary/55">Limited intake · Mumbai first</p>
               </div>
+            ) : (
+              <form className="max-w-2xl mx-auto mt-14" onSubmit={submit} onFocus={onFirstFocus}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                  <Field label="Name" id="f-name" placeholder="Enter your name" />
+                  <Field label="Phone" id="f-phone" type="tel" placeholder="Enter your phone" />
+                  <Field label="Email" id="f-email" type="email" placeholder="Enter your email" />
+                  <Field label="Pincode" id="f-pincode" placeholder="Enter your pincode" />
+                </div>
 
-              <div className="mt-5 md:mt-6">
-                <Field label="Which plan interests you? (Optional)" id="f-plan">
-                  <select id="f-plan" defaultValue="" className="field w-full h-12 rounded-lg px-4 text-sm">
-                    <option value="" disabled>Select a plan, not binding</option>
-                    <option value="a">Plan A · The Wardrobe Plan</option>
-                    <option value="b">Plan B · The Stylist Plan</option>
-                    <option value="unsure">Not sure yet</option>
-                  </select>
-                </Field>
-              </div>
+                <div className="mt-5 md:mt-6">
+                  <Field label="Which plan interests you? (Optional)" id="f-plan">
+                    <select id="f-plan" defaultValue="" className="field w-full h-12 rounded-lg px-4 text-sm">
+                      <option value="" disabled>Select a plan, not binding</option>
+                      <option value="a">Plan A · The Wardrobe Plan</option>
+                      <option value="b">Plan B · The Stylist Plan</option>
+                      <option value="unsure">Not sure yet</option>
+                    </select>
+                  </Field>
+                </div>
 
-              <div className="mt-10 flex flex-wrap items-center gap-5">
-                <button type="submit" disabled={submitted || sending}
-                  className="group inline-flex items-center gap-2 hover:gap-3 transition-all bg-primary rounded-full pl-6 pr-1.5 py-1.5 text-deep disabled:opacity-70">
-                  <span className="font-medium text-base">{submitted ? 'Spot reserved' : sending ? 'Sending…' : 'Reserve my spot'}</span>
-                  <span className="bg-black rounded-full w-10 h-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                    {submitted ? <Check size={16} strokeWidth={2.4} className="text-primary" /> : <ArrowRight size={16} className="text-primary" />}
-                  </span>
-                </button>
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary/55">Free · We will be in touch when your slot opens up</span>
-                {errorMsg ? <span className="text-xs text-red-300">{errorMsg}</span> : null}
-              </div>
-            </form>
+                <div className="mt-10 flex flex-wrap items-center gap-5">
+                  <button type="submit" disabled={sending}
+                    className="group inline-flex items-center gap-2 hover:gap-3 transition-all bg-primary rounded-full pl-6 pr-1.5 py-1.5 text-deep disabled:opacity-70">
+                    <span className="font-medium text-base">{sending ? 'Sending…' : 'Reserve my spot'}</span>
+                    <span className="bg-black rounded-full w-10 h-10 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                      <ArrowRight size={16} className="text-primary" />
+                    </span>
+                  </button>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary/55">Free · We will be in touch when your slot opens up</span>
+                  {errorMsg ? <span className="text-xs text-red-300">{errorMsg}</span> : null}
+                </div>
+              </form>
+            )}
           </FadeUp>
         </div>
       </div>
