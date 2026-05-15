@@ -560,7 +560,7 @@ function Hero() {
           <div className="flex items-end justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-primary/65 mt-6">
             <span>Index · 01 / 06</span>
             <span className="hidden md:inline">Scroll to begin</span>
-            <span>Limited intake</span>
+            <span></span>
           </div>
         </div>
       </div>
@@ -1053,7 +1053,6 @@ function Reserve() {
                 <p className="success-lift-2 mt-4 text-base text-moss max-w-md mx-auto leading-relaxed">
                   We will be in touch within 48 hours from the morning your slot opens.
                 </p>
-                <p className="success-lift-3 mt-8 font-mono text-[10px] uppercase tracking-[0.22em] text-primary/55">Limited intake · Mumbai first</p>
               </div>
             ) : (
               <form className="max-w-2xl mx-auto mt-14" onSubmit={submit} onFocus={onFirstFocus}>
@@ -1106,25 +1105,11 @@ function Footer() {
           </div>
           <p className="mt-4 max-w-md text-sm text-moss leading-[1.5]">A wardrobe that knows your body, your closet, and your life.</p>
         </div>
-        <div className="col-span-6 md:col-span-3">
+        <div className="col-span-12 md:col-span-6 md:text-right">
           <span className="eyebrow">Contact</span>
           <ul className="mt-4 space-y-2 text-sm text-primary/80">
-            <li>hello@ubique.studio</li>
-            <li>By appointment</li>
+            <li>hello@ubique.in</li>
           </ul>
-        </div>
-        <div className="col-span-6 md:col-span-3">
-          <span className="eyebrow">Follow</span>
-          <ul className="mt-4 space-y-2 text-sm text-primary/80">
-            <li>Instagram</li>
-            <li>Substack</li>
-            <li>The Field Notes</li>
-          </ul>
-        </div>
-        <div className="col-span-12 mt-8 pt-6 border-t border-primary/10 flex flex-wrap justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-primary/45">
-          <span>Limited intake · 2026</span>
-          <span>UBQ · V2 · Cinematic Edition</span>
-          <span>All rights, considered.</span>
         </div>
       </div>
     </footer>

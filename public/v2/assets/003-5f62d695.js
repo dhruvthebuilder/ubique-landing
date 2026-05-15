@@ -371,7 +371,6 @@ function ReserveForm() {
         <p className="ubq-success-lift-2 mt-4 text-base text-primary/65 max-w-md mx-auto leading-relaxed">
           We will be in touch within 48 hours from the morning your slot opens.
         </p>
-        <p className="ubq-success-lift-3 mt-8 text-[10px] uppercase tracking-[0.22em] text-primary/45" style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" }}>Limited intake · Mumbai first</p>
         <style>{`
           @keyframes ubq-success-pop { 0% { opacity: 0; transform: scale(0.94) translateY(10px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
           @keyframes ubq-draw-check { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
