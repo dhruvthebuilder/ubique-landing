@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ubique · a wardrobe that thinks</title>
+<title>Ubique · we make fashion easy for you</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="alternate icon" href="/favicon.ico" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -223,7 +223,7 @@
       defaults: '2026-01-30',
       person_profiles: 'identified_only'
     });
-    var VARIANT_NAMES = { v1: 'Wardrobe Intelligence', v2: 'Stylist-led' };
+    var VARIANT_NAMES = { v1: 'Quarterly pricing', v2: 'Monthly pricing' };
     var v = window.__UBIQUE_VARIANT__;
     posthog.register({ variant: v, variant_name: VARIANT_NAMES[v] || v });
     posthog.capture('variant_assigned', { variant: v, variant_name: VARIANT_NAMES[v] || v });
@@ -479,7 +479,7 @@ function Nav() {
 function Ticker() {
   const items = [
     'A wardrobe, thinking',
-    'The archivist session',
+    'The organisation session',
     'Eight steps to a perfect morning',
     'Styled by signal',
     'No more decision fatigue',
@@ -529,7 +529,7 @@ function Hero() {
                 </FadeUp>
                 <WordsPullUp
                   as="h1"
-                  text="We make your wardrobe think for itself."
+                  text="We make fashion easy for you."
                   className="mt-6 md:mt-8 relative font-normal display-mid text-[11vw] sm:text-[10vw] md:text-[9vw] lg:text-[8.2vw] xl:text-[7.6vw] max-w-[16ch]"
                   stagger={0.07}
                   baseDelay={0.18}
@@ -538,7 +538,7 @@ function Hero() {
               <div className="col-span-12 lg:col-span-3 lg:pl-6 pb-2 lg:pb-4">
                 <div className="fade-up" style={{ transitionDelay: '0.55s' }} ref={(el) => { if (el && in1) el.classList.add('is-in'); }}>
                   <p className="text-primary/85 text-sm md:text-base leading-[1.5] max-w-sm">
-                    Ubique knows your body, your closet, and your life. Every morning, the right outfit is already waiting, and the only pieces you buy are pieces worth keeping.
+                    Ubique organises your wardrobe, scans your clothes, learns your body and taste, and tells you exactly what to wear and shop — and what not to — every day.
                   </p>
                 </div>
                 <div className="fade-up mt-7" style={{ transitionDelay: '0.75s' }} ref={(el) => { if (el && in1) el.classList.add('is-in'); }}>
@@ -585,41 +585,31 @@ function About() {
 
         <WordsPullUpMultiStyle
           segments={[
-            { text: "We are Ubique,", className: "font-normal" },
-            { text: "a wardrobe", className: "font-normal" },
-            { text: "that learns you.", className: "font-serif italic" },
-            { text: "Built around the way you live, the way you move,", className: "font-normal" },
-            { text: "and the quiet rules", className: "font-normal" },
-            { text: "of how you actually want to dress.", className: "font-serif italic" },
+            { text: "We are Ubique.", className: "font-normal" },
+            { text: "We make dressing up", className: "font-normal" },
+            { text: "and shopping fun again.", className: "font-serif italic" },
+            { text: "Recommendations", className: "font-normal" },
+            { text: "personalised to you.", className: "font-serif italic" },
+            { text: "You just show up", className: "font-normal" },
+            { text: "in the best version of yourself,", className: "font-serif italic" },
+            { text: "we handle the rest.", className: "font-normal" },
           ]}
           className="justify-center max-w-4xl mx-auto text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-primary leading-[0.95] sm:leading-[0.9]"
         />
 
         <div className="mt-14 md:mt-16 max-w-3xl mx-auto">
           <FadeUp delay={0.2}>
-            <CinematicSlot label="IMG-ABOUT · Stylist hands working at a wardrobe" className="rounded-xl aspect-[16/9] w-full" tone="light" />
+            <CinematicSlot label="IMG-ABOUT · Wardrobe being scanned, garments laid out" className="rounded-xl aspect-[16/9] w-full" tone="light" />
           </FadeUp>
         </div>
 
         <div className="mt-12 md:mt-16 max-w-2xl mx-auto">
           <ScrollLetterReveal
-            text={"Over the last year, we have built a system that scans your closet, learns your taste, and styles you every morning. We work with stylists, photographers, and a small group of early members who shape every decision we make."}
+            text={"Over the last year, we have built a system that scans your closet, learns your taste, and styles you every morning. We work with photographers and a small group of early members who shape every decision we make."}
             className="text-[#DEDBC8] text-sm sm:text-base md:text-lg leading-[1.55]"
           />
         </div>
 
-        <div className="mt-16 md:mt-20 grid grid-cols-3 max-w-2xl mx-auto gap-4 md:gap-8">
-          {[
-            ['90', 'minute archivist session'],
-            ['08', 'steps to your perfect morning'],
-            ['01', 'wardrobe, completely understood'],
-          ].map(([n, l], i) => (
-            <FadeUp key={i} delay={i * 0.12} className="text-left">
-              <div className="step-num text-4xl md:text-5xl font-light text-primary leading-none" style={{ letterSpacing: '-0.03em' }}>{n}</div>
-              <div className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-primary/55 leading-snug max-w-[14ch]">{l}</div>
-            </FadeUp>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -649,7 +639,7 @@ const PILLARS = [
     title: 'Daily styling,',
     titleItalic: 'smart shopping.',
     body: 'Wake up to an outfit that works. Get recommendations only on what suits you, only when you need them.',
-    items: ['Outfit of the morning, ready before you wake', 'A shortlist of pieces worth buying', 'A stylist on call (Plan B)'],
+    items: ['Outfit of the morning, ready before you wake', 'A shortlist of pieces worth buying', 'Recommendations only on what works for you'],
   },
 ];
 
@@ -688,7 +678,7 @@ function Features() {
         <div className="mt-20 md:mt-28 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 border-t border-primary/10 pt-12">
           {[
             ['No payment today', 'You reserve a spot. We reach out when your slot opens up.'],
-            ['No subscription churn', 'One yearly fee. Two plans. No upsells, no add-ons, no friction.'],
+            ['No subscription churn', 'One yearly fee. One plan. No upsells, no add-ons, no friction.'],
             ['No more decision fatigue', 'Wake up. Get dressed. Walk out the door. That is the whole pitch.'],
           ].map(([t, b], i) => (
             <FadeUp key={i} delay={i * 0.1}>
@@ -715,7 +705,7 @@ function FeatureVisual() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/55 pointer-events-none" />
       <div className="absolute bottom-5 left-5 right-5 z-10">
         <div className="font-serif italic text-2xl sm:text-3xl text-primary leading-tight" style={{ color: '#E1E0CC' }}>
-          Your creative canvas.
+          Your wardrobe, organised and scanned.
         </div>
         <p className="mt-2 text-xs text-primary/60 max-w-[18rem]">Every garment you own, captured in studio light, organised into a system that thinks alongside you.</p>
       </div>
@@ -775,7 +765,7 @@ function FeatureCard({ n, Icon, title, titleItalic, body, items, idx }) {
 const ECOSYSTEM = [
   ['01', 'Your closet today',         'A wardrobe full of clothes, none of which you reach for.'],
   ['02', 'You find us',                'Through Instagram, a friend, or a search for "I have too many clothes."'],
-  ['03', 'The Archivist Session',      'A 90-minute home visit. Every piece scanned, every detail noted.'],
+  ['03', 'The Organisation Session',   'A home visit. Every piece scanned, every detail noted.'],
   ['04', 'Your wardrobe, a system',    'Tagged, categorised, searchable. Living in your phone.'],
   ['05', 'We understand you, entirely','Body, style preferences, occasions, taste, budget.'],
   ['06', 'We train you to use it',     'A guided walkthrough of your personal Ubique.'],
@@ -838,19 +828,11 @@ function Ecosystem() {
 }
 
 /* ---------- pricing ---------- */
-function Plan({ tier, name, price, sub, features, cta, premium, idx }) {
+function Plan({ tier, name, price, cadence, anchor, sub, features, cta, premium, idx }) {
   const [ref, inView] = useInView({ margin: '-80px' });
   return (
     <div ref={ref} className={'scale-in lift relative rounded-2xl md:rounded-[1.5rem] p-7 md:p-10 flex flex-col ' + (inView ? 'is-in' : '') + (premium ? ' bg-gradient-to-b from-[#1E2A1E] to-[#0F140F] border border-primary/25' : ' bg-card border border-primary/10')}
          style={{ transitionDelay: (idx * 0.18) + 's' }}>
-      {premium && (
-        <div className="absolute top-5 right-5">
-          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-primary/85 px-2.5 py-1 rounded-full border border-primary/30">
-            <span className="star-spin">✦</span>
-            Stylist tier
-          </span>
-        </div>
-      )}
       <div className="flex items-center gap-2">
         <span className="block w-1.5 h-1.5 rounded-full bg-primary" />
         <span className="eyebrow">{tier}</span>
@@ -859,8 +841,11 @@ function Plan({ tier, name, price, sub, features, cta, premium, idx }) {
 
       <div className="mt-7 flex items-baseline gap-2">
         <span className="text-5xl md:text-6xl font-light text-primary" style={{ letterSpacing: '-0.04em' }}>{price}</span>
-        <span className="text-sm text-moss">per year</span>
+        <span className="text-sm text-moss">{cadence || 'per year'}</span>
       </div>
+      {anchor ? (
+        <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-primary/55">{anchor}</div>
+      ) : null}
 
       <p className="mt-4 text-sm text-moss leading-[1.55] max-w-sm">{sub}</p>
 
@@ -891,12 +876,11 @@ function Pricing() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-12 mb-16">
           <div className="col-span-12 md:col-span-7">
-            <FadeUp><span className="eyebrow">Pricing plans</span></FadeUp>
+            <FadeUp><span className="eyebrow">Pricing</span></FadeUp>
             <WordsPullUpMultiStyle
               segments={[
-                { text: "Two plans.", className: "text-primary" },
-                { text: "Same wardrobe", className: "text-primary" },
-                { text: "magic.", className: "text-primary font-serif italic" },
+                { text: "One plan.", className: "text-primary" },
+                { text: "One promise.", className: "text-primary font-serif italic" },
               ]}
               className="mt-5 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal display-mid"
             />
@@ -912,33 +896,20 @@ function Pricing() {
           <CinematicSlot label="IMG-PRICING · Folded garments, neutral palette" className="rounded-xl aspect-[21/9] w-full" tone="light" />
         </FadeUp>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="max-w-xl mx-auto">
           <Plan idx={0}
-            tier="Plan A"
-            name="The Wardrobe Plan"
-            price="₹6,000"
+            tier="The Wardrobe Plan"
+            name="Everything Ubique"
+            price="₹1,499"
+            cadence="per quarter"
+            anchor="₹5,999 / year · billed quarterly"
             sub="Your closet, organised. Daily styling. Smart shopping recommendations."
             features={[
               'Wardrobe digitisation and organisation',
               'Daily styling from what you own',
               'Smart shopping recommendations',
               'Body and style profile',
-              'Chat with your stylist anytime',
-            ]}
-            cta="Reserve your spot"
-            premium={false}
-          />
-          <Plan idx={1}
-            tier="Plan B · Premium"
-            name="The Stylist Plan"
-            price="₹18,000"
-            sub="Everything in The Wardrobe Plan, plus a human stylist on call. Real conversations through chat, voice, or video."
-            features={[
-              'Everything in Plan A',
-              'Human stylist on call',
-              'Chat, voice, and video sessions',
-              'Quarterly wardrobe reviews',
-              'Concierge shopping support',
+              'Chat with the Ubique team anytime',
             ]}
             cta="Reserve your spot"
             premium={true}
@@ -1063,16 +1034,7 @@ function Reserve() {
                   <Field label="Pincode" id="f-pincode" placeholder="Enter your pincode" />
                 </div>
 
-                <div className="mt-5 md:mt-6">
-                  <Field label="Which plan interests you? (Optional)" id="f-plan">
-                    <select id="f-plan" defaultValue="" className="field w-full h-12 rounded-lg px-4 text-sm">
-                      <option value="" disabled>Select a plan, not binding</option>
-                      <option value="a">Plan A · The Wardrobe Plan</option>
-                      <option value="b">Plan B · The Stylist Plan</option>
-                      <option value="unsure">Not sure yet</option>
-                    </select>
-                  </Field>
-                </div>
+                <input type="hidden" id="f-plan" value="wardrobe" />
 
                 <div className="mt-10 flex flex-wrap items-center gap-5">
                   <button type="submit" disabled={sending}

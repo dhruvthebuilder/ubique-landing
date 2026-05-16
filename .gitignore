@@ -65,3 +65,4 @@ platform.openapi.yml
 # pending-image intake: never committed (raw PNGs/JPGs from manual gen)
 /_pending-images/
 
+archive/
