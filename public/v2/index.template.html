@@ -1093,6 +1093,10 @@ function Reserve() {
               </div>
             ) : (
               <form className="max-w-2xl mx-auto mt-14" onSubmit={submit} onFocus={onFirstFocus}>
+                <div className="mb-7 flex items-center justify-center gap-2.5 rounded-full bg-primary/10 border border-primary/25 px-4 py-2.5">
+                  <span className="block w-1.5 h-1.5 rounded-full bg-primary" />
+                  <span className="text-xs sm:text-sm text-primary font-medium leading-snug text-center">Free to reserve · No payment today · No card required</span>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                   <Field label="Name" id="f-name" placeholder="Enter your name" />
                   <Field label="Phone" id="f-phone" type="tel" placeholder="Enter your phone" />
