@@ -223,7 +223,7 @@
       defaults: '2026-01-30',
       person_profiles: 'identified_only'
     });
-    var VARIANT_NAMES = { v1: 'Quarterly pricing', v2: 'Monthly pricing' };
+    var VARIANT_NAMES = { v1: 'Pricing low', v2: 'Pricing high' };
     var v = window.__UBIQUE_VARIANT__;
     posthog.register({ variant: v, variant_name: VARIANT_NAMES[v] || v });
     posthog.capture('variant_assigned', { variant: v, variant_name: VARIANT_NAMES[v] || v });
@@ -870,16 +870,86 @@ function Plan({ tier, name, price, cadence, anchor, sub, features, cta, premium,
   );
 }
 
+function PricingToggle({ cadence, setCadence }) {
+  const isYearly = cadence === 'yearly';
+  return (
+    <FadeUp className="mb-10 md:mb-12 flex items-center justify-center gap-4">
+      <button
+        type="button"
+        onClick={() => setCadence('monthly')}
+        className={'text-sm font-medium transition-colors ' + (!isYearly ? 'text-primary' : 'text-moss hover:text-primary/80')}
+      >
+        Pay monthly
+      </button>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={isYearly}
+        aria-label="Toggle between monthly and yearly pricing"
+        onClick={() => setCadence(isYearly ? 'monthly' : 'yearly')}
+        className="relative h-6 w-11 rounded-full bg-card border border-primary/25 transition-colors"
+      >
+        <span
+          className={'absolute top-[2px] h-[18px] w-[18px] rounded-full bg-primary transition-transform duration-200 ' + (isYearly ? 'translate-x-[22px]' : 'translate-x-[2px]')}
+        />
+      </button>
+      <button
+        type="button"
+        onClick={() => setCadence('yearly')}
+        className={'text-sm font-medium transition-colors ' + (isYearly ? 'text-primary' : 'text-moss hover:text-primary/80')}
+      >
+        Pay yearly
+      </button>
+    </FadeUp>
+  );
+}
+
+const PLANS = [
+  {
+    tier: 'Essential',
+    name: 'The Wardrobe Plan',
+    monthly: '₹699',
+    yearly: '₹7,999',
+    sub: 'Your closet, organised. Daily styling. Smart shopping recommendations.',
+    features: [
+      'Wardrobe digitisation and organisation',
+      'Daily styling from what you own',
+      'Smart shopping recommendations',
+      'Body and style profile',
+      'Chat with the Ubique team anytime',
+    ],
+    cta: 'Reserve your spot',
+    premium: false,
+  },
+  {
+    tier: 'Signature',
+    name: 'The Concierge Plan',
+    monthly: '₹1,699',
+    yearly: '₹19,999',
+    sub: 'Everything in The Wardrobe Plan, plus quarterly reviews and concierge shopping.',
+    features: [
+      'Everything in The Wardrobe Plan',
+      'Quarterly wardrobe reviews',
+      'Concierge shopping support',
+      'Priority chat response',
+      'Seasonal restyling sessions',
+    ],
+    cta: 'Reserve your spot',
+    premium: true,
+  },
+];
+
 function Pricing() {
+  const [cadence, setCadence] = useState('monthly');
   return (
     <section id="pricing" className="bg-deep py-24 md:py-40 px-4 md:px-8" data-screen-label="05 Pricing">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-12 mb-16">
+        <div className="grid grid-cols-12 mb-12 md:mb-14">
           <div className="col-span-12 md:col-span-7">
             <FadeUp><span className="eyebrow">Pricing</span></FadeUp>
             <WordsPullUpMultiStyle
               segments={[
-                { text: "One plan.", className: "text-primary" },
+                { text: "Two plans.", className: "text-primary" },
                 { text: "One promise.", className: "text-primary font-serif italic" },
               ]}
               className="mt-5 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal display-mid"
@@ -892,28 +962,24 @@ function Pricing() {
           </FadeUp>
         </div>
 
-        <FadeUp delay={0.25} className="mb-12">
-          <CinematicSlot label="IMG-PRICING · Folded garments, neutral palette" className="rounded-xl aspect-[21/9] w-full" tone="light" />
-        </FadeUp>
+        <PricingToggle cadence={cadence} setCadence={setCadence} />
 
-        <div className="max-w-xl mx-auto">
-          <Plan idx={0}
-            tier="The Wardrobe Plan"
-            name="Everything Ubique"
-            price="₹499"
-            cadence="per month"
-            anchor="₹5,999 / year · billed monthly"
-            sub="Your closet, organised. Daily styling. Smart shopping recommendations."
-            features={[
-              'Wardrobe digitisation and organisation',
-              'Daily styling from what you own',
-              'Smart shopping recommendations',
-              'Body and style profile',
-              'Chat with the Ubique team anytime',
-            ]}
-            cta="Reserve your spot"
-            premium={true}
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          {PLANS.map((p, i) => (
+            <Plan
+              key={p.tier}
+              idx={i}
+              tier={p.tier}
+              name={p.name}
+              price={cadence === 'monthly' ? p.monthly : p.yearly}
+              cadence={cadence === 'monthly' ? 'per month' : 'per year'}
+              anchor={cadence === 'monthly' ? (p.yearly + ' · billed yearly') : null}
+              sub={p.sub}
+              features={p.features}
+              cta={p.cta}
+              premium={p.premium}
+            />
+          ))}
         </div>
       </div>
     </section>
