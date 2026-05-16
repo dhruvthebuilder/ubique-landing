@@ -887,10 +887,10 @@ function PricingToggle({ cadence, setCadence }) {
         aria-checked={isYearly}
         aria-label="Toggle between monthly and yearly pricing"
         onClick={() => setCadence(isYearly ? 'monthly' : 'yearly')}
-        className="relative h-6 w-11 rounded-full bg-card border border-primary/25 transition-colors"
+        className="relative inline-flex h-6 w-11 items-center rounded-full bg-card border border-primary/25 transition-colors"
       >
         <span
-          className={'absolute top-[2px] h-[18px] w-[18px] rounded-full bg-primary transition-transform duration-200 ' + (isYearly ? 'translate-x-[22px]' : 'translate-x-[2px]')}
+          className={'inline-block h-4 w-4 rounded-full bg-primary transition-transform duration-200 ' + (isYearly ? 'translate-x-6' : 'translate-x-1')}
         />
       </button>
       <button
